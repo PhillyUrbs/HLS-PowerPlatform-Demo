@@ -141,3 +141,66 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# ─────────────────────────────────────────────────────────────
+# Project-specific (HLS Power Platform Demo)
+# ─────────────────────────────────────────────────────────────
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# VS Code — keep shared settings/extensions, ignore per-user state
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.history/
+
+# JetBrains / IDEs
+.idea/
+*.swp
+*.swo
+
+# Local secrets & per-developer config
+.env.local
+.env.*.local
+*.pem
+*.pfx
+secrets/
+
+# Power Platform — pac CLI artifacts
+.pac/
+*.pacx
+.power-platform/
+# Solution build outputs (we keep unpacked solutions in solutions/<name>/src/)
+**/bin/
+**/obj/
+**/out/
+**/*.zip
+!.squad-templates/**/*.zip
+
+# Power Pages local cache
+.powerpages-cache/
+**/__manifest__.json.bak
+
+# Power Apps Code App / Power Pages Code Site dev artifacts
+.deploy/
+deploy/dist/
+
+# Squad scratch / per-run artifacts (the .squad/ team state IS committed)
+.squad/log/
+.squad/orchestration-log/
+.squad/scratch/
+.squad/ralph-stop
+*.squad-tmp
+
+# Test/coverage extras
+playwright-report/
+test-results/
+
+# Generated docs assets we don't want to track yet
+docs/assets/_generated/
+

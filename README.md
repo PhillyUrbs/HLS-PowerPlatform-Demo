@@ -6,9 +6,9 @@ fictitious continuous glucose monitor (CGM) manufacturer — **Contoso Continuum
 The demo showcases all four Power Platform pillars working together:
 
 - **Power Pages** (Code Site, React SPA) — patient & HCP portal
-- **Power Apps** (Code App, React + Vite) — Field Clinical Specialist companion
-- **Power Automate** — order/replacement orchestration with a mocked carrier API
-- **Copilot Studio** — customer-facing, employee-facing, embedded, and agentic agents
+- **Power Apps** (Code App, React + Vite) — Field Clinical Specialist & Quality Analyst companion
+- **Power Automate** — order/replacement orchestration with an in-platform Shipment lifecycle (no external services)
+- **Copilot Studio** — customer-facing, employee-facing, embedded, autonomous, and multi-surface agents
 
 It is built primarily by a human + GitHub Copilot + [Squad](https://github.com/bradygaster/squad)
 (human-led AI agent teams), with content authored to maximize what Copilot can configure
@@ -16,19 +16,20 @@ and deploy directly.
 
 ## Status
 
-🚧 **Early scaffolding.** Content is being added phase-by-phase — see the plan in
-`docs/` once it lands. Anything in this repo today should be considered a
-work-in-progress.
+🚧 **Planning complete; Phase 0 implementation kicking off.** The full plan lives under
+[docs/_planning/](docs/_planning/) (handoff + 11 topic docs). Anything outside that
+folder is still work-in-progress.
 
 ## Scenario at a glance
 
-Five modular 5–10 minute vignettes across four personas:
+Six modular 5–10 minute vignettes across four personas, demoable standalone or chained 1→6:
 
 1. Patient onboarding & in-context support — *Power Pages + Copilot Studio*
 2. HCP prescribing & patient roster — *Power Pages (auth) + Power Automate*
 3. Field Clinical Specialist account 360 — *Power Apps Code App + embedded agent*
 4. Autonomous complaint triage & MDR drafting — *Copilot Studio (triggered)*
-5. Employee enablement agent in Teams — *Copilot Studio (knowledge + tools)*
+5. Employee enablement agent — *Copilot Studio (knowledge + tools)*
+6. Extend everywhere — *same agent surfaced in Code App, Teams, SharePoint, and M365 Copilot*
 
 All data is **synthetic**. No real patient information is used or should ever be added.
 

@@ -1,0 +1,98 @@
+{
+  // ───────────────────────────────────────────────────────────
+  // GitHub Copilot — load repo context automatically
+  // ───────────────────────────────────────────────────────────
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  "chat.promptFiles": true,
+  "chat.instructionsFilesLocations": {
+    ".github/instructions": true
+  },
+  "chat.agent.maxRequests": 50,
+
+  // ───────────────────────────────────────────────────────────
+  // Auto-approve safe terminal commands so Copilot/Squad can move
+  // without per-call prompts. Destructive commands stay blocked.
+  // Keys wrapped in /…/ are regex; bare keys are exact prefixes.
+  // ───────────────────────────────────────────────────────────
+  "chat.tools.terminal.autoApprove": {
+    // Power Platform CLI — read/build/deploy commands
+    "/^pac (auth list|env list|env who|env select|solution list|solution clone|solution pack|solution unpack|pages list|pages download|pages upload|code init|code push|copilot list)/": true,
+    "/^pac (admin |.* delete|.* clear)/": false,
+
+    // Node / npm / npx
+    "/^npm (install|i|ci|run|test|version|view|list|ls|outdated|audit)/": true,
+    "/^npx /": true,
+    "/^node /": true,
+
+    // Squad CLI
+    "/^squad (status|doctor|nap|export|copilot)/": true,
+
+    // Git — read & local writes ok; pushes & destructive ops require approval
+    "/^git (status|diff|log|show|branch|tag|fetch|pull|stash|restore|add|commit|switch|checkout(?! -- ))/": true,
+    "/^git push( |$)/": false,
+    "/^git push --force/": false,
+    "/^git reset --hard/": false,
+    "/^git clean -[fd]/": false,
+
+    // GitHub CLI
+    "/^gh (auth status|repo view|repo list|issue (list|view|create|comment)|pr (list|view|checks|diff|create|comment)|workflow (list|view|run))/": true,
+    "/^gh repo delete/": false,
+
+    // Azure CLI (read-only by default)
+    "/^az (account show|account list|login|group list|functionapp list|webapp list|ad sp list)/": true,
+    "/^az group delete/": false,
+    "/^az functionapp delete/": false,
+
+    // Azure Functions Core Tools
+    "/^func (start|init|new|host|azure|settings)/": true,
+
+    // File inspection
+    "/^(ls|dir|cat|head|tail|wc|grep|rg|find|which|where|pwd|echo|type)/": true,
+
+    // Hard "no" list — never auto-approve
+    "rm -rf": false,
+    "/sudo /": false,
+    "/^Remove-Item /": false,
+    "/format /": false
+  },
+
+  // ───────────────────────────────────────────────────────────
+  // Editor & formatting
+  // ───────────────────────────────────────────────────────────
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[json]": { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[jsonc]": { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[yaml]": { "editor.defaultFormatter": "redhat.vscode-yaml" },
+  "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+
+  // ───────────────────────────────────────────────────────────
+  // File associations for Power Platform / Pages
+  // ───────────────────────────────────────────────────────────
+  "files.associations": {
+    "*.liquid": "html",
+    "**/solutions/**/*.xml": "xml",
+    "**/sites/**/*.webrole.yml": "yaml",
+    "**/sites/**/*.webpage.yml": "yaml"
+  },
+
+  // ───────────────────────────────────────────────────────────
+  // Search hygiene
+  // ───────────────────────────────────────────────────────────
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/bin": true,
+    "**/obj": true,
+    "**/.squad/log": true,
+    "**/.squad/orchestration-log": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/.squad/log/**": true
+  }
+}
