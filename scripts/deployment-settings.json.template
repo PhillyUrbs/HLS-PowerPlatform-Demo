@@ -1,0 +1,91 @@
+{
+  "$schema": "./deployment-settings.schema.json",
+  "_comment": "HLS Power Platform Demo deployment settings template. Copy this file to scripts/deployment-settings.json (gitignored) and fill in the values for your demo environment. install.ps1 reads from this file. Per Topic 4: only operator-input values live here; provisioned-by-install URLs/IDs (Pages/Code App URL, Teams team/channel IDs, SharePoint library, agent IDs, Entra app reg IDs) are written back to this file by install.ps1 after the relevant resource is created.",
+
+  "environment": {
+    "_comment": "Power Platform environment to target. Get the URL from `pac env list`. The environment must already exist; install.ps1 does not create environments (operator's tenant decision).",
+    "name": "<set-me: friendly env name, e.g. Continuum Demo (Dev)>",
+    "url": "<set-me: https://orgxxxx.crm.dynamics.com>",
+    "region": "unitedstates"
+  },
+
+  "superUsers": [
+    "<set-me: primary super user UPN, e.g. operator@contoso.onmicrosoft.com>"
+  ],
+
+  "tenant": {
+    "_comment": "Tenant to provision Entra app registrations + SharePoint site + Teams team in (Lead PR #2 per Topic 11 §A3).",
+    "id": "<set-me: tenant GUID>",
+    "domain": "<set-me: tenant.onmicrosoft.com>"
+  },
+
+  "urls": {
+    "_comment": "URLs of provisioned resources. Most are populated by install.ps1 after the resource exists; you only set cch_UrlSharePointSite (operator picks the SP site to host knowledge docs).",
+    "cch_UrlSharePointSite": "<set-me: https://contoso.sharepoint.com/sites/continuum-demo>",
+    "cch_UrlPagesSite": null,
+    "cch_UrlCodeApp": null,
+    "cch_UrlTeamsTenant": null,
+    "cch_UrlGraphBase": null
+  },
+
+  "ids": {
+    "_comment": "GUIDs of provisioned resources. All populated by install.ps1; leave null at first install.",
+    "cch_IdTeamsTeam": null,
+    "cch_IdTeamsChannelQuality": null,
+    "cch_IdTeamsChannelLeadership": null,
+    "cch_IdTeamsChannelField": null,
+    "cch_IdTeamsChannelEnablement": null,
+    "cch_IdSharePointLibraryKnowledge": null,
+    "cch_IdAgentPatientSupport": null,
+    "cch_IdAgentQualityTriage": null,
+    "cch_IdAgentEnablement": null,
+    "cch_IdEntraAppPagesAuth": null,
+    "cch_IdEntraAppServicePrincipal": null,
+    "cch_IdPipelinesHostEnv": null
+  },
+
+  "secrets": {
+    "_comment": "Per Topic 4 SecretRef abstraction: each value is `plain:<value>` for development or `kv:<keyVault>/<secret>[?version=<v>]` for Key Vault-backed (future). Doctor flags plain:* as info-level to remind operator. Direct Line secrets come from Copilot Studio channel config; Graph + SP client secrets come from Setup-ServicePrincipal.ps1 (Lead PR #2).",
+    "cch_SecretDirectLinePatientSupport": "plain:<set-me-after-publishing-agent>",
+    "cch_SecretDirectLineQualityTriage": "plain:<set-me-after-publishing-agent>",
+    "cch_SecretDirectLineEnablement": "plain:<set-me-after-publishing-agent>",
+    "cch_SecretGraphAppClient": "plain:<set-me-after-Setup-ServicePrincipal>",
+    "cch_SecretSPClient": "plain:<set-me-after-Setup-ServicePrincipal>"
+  },
+
+  "tunables": {
+    "_comment": "Optional behavior overrides. Defaults from EnvVarManifest.json apply if you leave a value null.",
+    "cch_TunableLiveSimCron": null,
+    "cch_TunableDemoRefreshCron": null,
+    "cch_TunableMdrClockHours": null,
+    "cch_TunableShipmentStepSeconds": null,
+    "cch_TunableTimezone": null
+  },
+
+  "featureFlags": {
+    "_comment": "All vignette + infrastructure flags default true. Set to false to skip a vignette in this env (e.g., demoing only V1+V4+V6 highlight reel).",
+    "cch_FeatureV1PatientPortal": null,
+    "cch_FeatureV2HCPPortal": null,
+    "cch_FeatureV3FieldCompanion": null,
+    "cch_FeatureV4QualityTriage": null,
+    "cch_FeatureV5EnablementKnowledge": null,
+    "cch_FeatureV6ExtendEverywhere": null,
+    "cch_FeatureLiveSim": null,
+    "cch_FeatureDailyRefresh": null,
+    "cch_FeatureDemoModeBanner": null
+  },
+
+  "brand": {
+    "_comment": "Optional brand string overrides. Defaults from EnvVarManifest.json apply if null. Useful if you fork this template for a different fictional company without restructuring the planning corpus.",
+    "cch_BrandCompanyName": null,
+    "cch_BrandPrimaryColor": null,
+    "cch_BrandFooterDisclaimer": null,
+    "cch_BrandDemoModeBannerText": null
+  },
+
+  "connections": {
+    "_comment": "Per-connection-reference owner override per Topic 3 §3.7 hybrid pattern. Default for each ref is set in install.ps1 (SP via Graph for most; interactive identity for personal-mailbox/calendar/Teams-1:1/OneDrive-personal). Use this map only when you want to override a default.",
+    "_format": "{ \"<connection-reference-logical-name>\": \"sp\" | \"interactive\" }",
+    "_example": { "cch_OutlookSendAsMe": "interactive" }
+  }
+}

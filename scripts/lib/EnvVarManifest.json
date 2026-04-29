@@ -1,0 +1,576 @@
+{
+    "$schema": "./EnvVarManifest.schema.json",
+    "version": 1,
+    "description": "Machine-readable inventory of all Dataverse Environment Variables the demo solution defines. Authoritative source per Topic 4. Consumed by install.ps1 (prompt for missing required), upgrade.ps1 (detect deltas), doctor.ps1 (validate format + presence), and the Tier-1 schema-drift validator.",
+    "naming": {
+        "prefix": "cch_",
+        "convention": "PascalCase",
+        "format": "cch_<Category><Name>",
+        "exampleValid": "cch_UrlSharePointSite",
+        "exampleInvalid": "CCH_URL_SHAREPOINT_SITE"
+    },
+    "categories": [
+        {
+            "name": "Url",
+            "description": "URLs of provisioned resources. Must be https; must not contain localhost or 127.0.0.1 (locked runtime independence)."
+        },
+        {
+            "name": "Id",
+            "description": "GUIDs / IDs of provisioned resources (Teams team/channel, SharePoint library, Entra app reg, Copilot Studio agent)."
+        },
+        {
+            "name": "Secret",
+            "description": "Secret references via the SecretRef abstraction (Topic 4): plain:<value> or kv:<keyVault>/<secret>[?version=<v>]. Doctor warns on plain:* mode in info-level findings."
+        },
+        {
+            "name": "Tunable",
+            "description": "Demo behavior tunables (cron strings, intervals, MDR clock duration). Per-env overridable."
+        },
+        {
+            "name": "Feature",
+            "description": "Per-vignette / per-feature boolean flags. All ON by default at install (Topic 4)."
+        },
+        {
+            "name": "Brand",
+            "description": "Brand strings surfaced in UI footer / agent salutation / Demo Mode banner."
+        }
+    ],
+    "variables": [
+        {
+            "name": "cch_UrlSharePointSite",
+            "category": "Url",
+            "type": "string",
+            "format": "url",
+            "required": true,
+            "default": null,
+            "source": "operator-input",
+            "description": "SharePoint site holding the Continuum Knowledge library and weekly republished grounding docs.",
+            "readBy": [
+                "Continuum Enablement agent",
+                "Patient Support agent (Patient persona)",
+                "Quality Triage agent",
+                "templated-doc weekly republish flow"
+            ]
+        },
+        {
+            "name": "cch_UrlPagesSite",
+            "category": "Url",
+            "type": "string",
+            "format": "url",
+            "required": true,
+            "default": null,
+            "source": "provisioned-by-pac-pages-activate; written-back-by-install",
+            "description": "The deployed Power Pages site URL (V1 + V2 surfaces).",
+            "readBy": [
+                "Patient Support agent V1 deep links",
+                "PostQualityTriageCard 'Open in Quality Workspace' button"
+            ]
+        },
+        {
+            "name": "cch_UrlCodeApp",
+            "category": "Url",
+            "type": "string",
+            "format": "url",
+            "required": true,
+            "default": null,
+            "source": "provisioned-by-pac-code-deploy; written-back-by-install",
+            "description": "The deployed Power Apps Code App URL (V3, V4, V5 surfaces).",
+            "readBy": [
+                "TriageCard / ChannelUpdateCard 'Open in app' buttons",
+                "Quality Triage 'Open in Quality Workspace' deep link"
+            ]
+        },
+        {
+            "name": "cch_UrlTeamsTenant",
+            "category": "Url",
+            "type": "string",
+            "format": "url",
+            "required": false,
+            "default": "https://teams.microsoft.com/l/",
+            "source": "default-or-operator-input",
+            "description": "Base URL for composing Teams deep links.",
+            "readBy": [
+                "Adaptive Card deep-link composition"
+            ]
+        },
+        {
+            "name": "cch_UrlGraphBase",
+            "category": "Url",
+            "type": "string",
+            "format": "url",
+            "required": false,
+            "default": "https://graph.microsoft.com/v1.0",
+            "source": "default-or-operator-input",
+            "description": "Microsoft Graph base URL used by Teams channel-post flow.",
+            "readBy": [
+                "Teams channel post flow",
+                "PostQualityTriageCard",
+                "PostTeamsChannelUpdate"
+            ]
+        },
+        {
+            "name": "cch_IdTeamsTeam",
+            "category": "Id",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "default": null,
+            "source": "provisioned-by-install; written-back",
+            "description": "GUID of the Teams team containing the demo channels (Quality, Field, Enablement, Leadership).",
+            "readBy": [
+                "All Teams channel-post flows"
+            ]
+        },
+        {
+            "name": "cch_IdTeamsChannelQuality",
+            "category": "Id",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "default": null,
+            "source": "provisioned-by-install; written-back",
+            "description": "Quality Triage Teams channel — receives V4 triage cards.",
+            "readBy": [
+                "PostQualityTriageCard"
+            ]
+        },
+        {
+            "name": "cch_IdTeamsChannelLeadership",
+            "category": "Id",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "default": null,
+            "source": "provisioned-by-install; written-back",
+            "description": "Leadership Teams channel — receives V4 escalation cards.",
+            "readBy": [
+                "EscalateComplaint"
+            ]
+        },
+        {
+            "name": "cch_IdTeamsChannelField",
+            "category": "Id",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "default": null,
+            "source": "provisioned-by-install; written-back",
+            "description": "Field team Teams channel — receives V3 FCS channel updates.",
+            "readBy": [
+                "PostTeamsChannelUpdate"
+            ]
+        },
+        {
+            "name": "cch_IdTeamsChannelEnablement",
+            "category": "Id",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "default": null,
+            "source": "provisioned-by-install; written-back",
+            "description": "Enablement Teams channel — receives V5/V6 enablement-tool result cards (sample orders, training schedules).",
+            "readBy": [
+                "OrderSamples",
+                "ScheduleTraining"
+            ]
+        },
+        {
+            "name": "cch_IdSharePointLibraryKnowledge",
+            "category": "Id",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "default": null,
+            "source": "provisioned-by-install; written-back",
+            "description": "SharePoint library 'Continuum Knowledge' GUID — agents ground on subfolders inside.",
+            "readBy": [
+                "Continuum Enablement agent grounding",
+                "Patient Support agent FAQ topics",
+                "Quality Triage agent regulatory-glossary lookups",
+                "templated-doc republish flow"
+            ]
+        },
+        {
+            "name": "cch_IdAgentPatientSupport",
+            "category": "Id",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "default": null,
+            "source": "published-by-copilot-studio",
+            "description": "Patient Support agent ID (used for V1 floating bubble + V2 dashboard panel + V3 docked panel).",
+            "readBy": [
+                "AgentChatHost component",
+                "cch_IssueDirectLineToken flow"
+            ]
+        },
+        {
+            "name": "cch_IdAgentQualityTriage",
+            "category": "Id",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "default": null,
+            "source": "published-by-copilot-studio",
+            "description": "Quality Triage agent ID (V4 triggered by cch_TriggerQualityTriage flow + V4 docked analyst chat).",
+            "readBy": [
+                "cch_TriggerQualityTriage",
+                "AgentChatHost component (V4 docked panel)"
+            ]
+        },
+        {
+            "name": "cch_IdAgentEnablement",
+            "category": "Id",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "default": null,
+            "source": "published-by-copilot-studio",
+            "description": "Continuum Enablement agent ID (V5 Knowledge tab + V6 multi-surface).",
+            "readBy": [
+                "AgentChatHost component (V5 fullScreen)",
+                "Teams app manifest",
+                "SharePoint webpart",
+                "M365 Copilot agent picker"
+            ]
+        },
+        {
+            "name": "cch_IdEntraAppPagesAuth",
+            "category": "Id",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "default": null,
+            "source": "provisioned-by-install (Lead PR #2 per Topic 11 §A3)",
+            "description": "Entra app registration for Power Pages identity provider.",
+            "readBy": [
+                "Pages auth wiring (sites/continuum-portal/)",
+                "install.ps1 provision-entra-apps mode"
+            ]
+        },
+        {
+            "name": "cch_IdEntraAppServicePrincipal",
+            "category": "Id",
+            "type": "string",
+            "format": "guid",
+            "required": true,
+            "default": null,
+            "source": "provisioned-by-Setup-ServicePrincipal-ps1",
+            "description": "Entra app registration for the service principal used by flows + agent tools (Topic 3 ServicePrincipal Dataverse role).",
+            "readBy": [
+                "Documentation only; not read by flows at runtime"
+            ]
+        },
+        {
+            "name": "cch_IdPipelinesHostEnv",
+            "category": "Id",
+            "type": "string",
+            "format": "guid",
+            "required": false,
+            "default": null,
+            "source": "provisioned-by-Provision-Pipelines-ps1 (Topic 5)",
+            "description": "Power Platform Pipelines host environment ID. Set after Provision-Pipelines.ps1 runs.",
+            "readBy": [
+                "Documentation only"
+            ]
+        },
+        {
+            "name": "cch_SecretDirectLinePatientSupport",
+            "category": "Secret",
+            "type": "string",
+            "format": "secret-ref",
+            "required": true,
+            "default": null,
+            "source": "copilot-studio-channel-config",
+            "description": "Direct Line secret for Patient Support agent. Stored as plain:<value> or kv:<vault>/<secret>.",
+            "readBy": [
+                "cch_IssueDirectLineToken flow"
+            ]
+        },
+        {
+            "name": "cch_SecretDirectLineQualityTriage",
+            "category": "Secret",
+            "type": "string",
+            "format": "secret-ref",
+            "required": true,
+            "default": null,
+            "source": "copilot-studio-channel-config",
+            "description": "Direct Line secret for Quality Triage agent.",
+            "readBy": [
+                "cch_IssueDirectLineToken flow"
+            ]
+        },
+        {
+            "name": "cch_SecretDirectLineEnablement",
+            "category": "Secret",
+            "type": "string",
+            "format": "secret-ref",
+            "required": true,
+            "default": null,
+            "source": "copilot-studio-channel-config",
+            "description": "Direct Line secret for Continuum Enablement agent.",
+            "readBy": [
+                "cch_IssueDirectLineToken flow"
+            ]
+        },
+        {
+            "name": "cch_SecretGraphAppClient",
+            "category": "Secret",
+            "type": "string",
+            "format": "secret-ref",
+            "required": true,
+            "default": null,
+            "source": "Setup-ServicePrincipal-ps1",
+            "description": "App client secret for Microsoft Graph access (Teams channel posts via SP+Graph).",
+            "readBy": [
+                "PostQualityTriageCard",
+                "PostTeamsChannelUpdate",
+                "EscalateComplaint",
+                "OrderSamples",
+                "ScheduleTraining"
+            ]
+        },
+        {
+            "name": "cch_SecretSPClient",
+            "category": "Secret",
+            "type": "string",
+            "format": "secret-ref",
+            "required": true,
+            "default": null,
+            "source": "Setup-ServicePrincipal-ps1",
+            "description": "Service principal client secret (used for Connection Reference setup, not at flow runtime).",
+            "readBy": [
+                "install.ps1 connection reference setup only"
+            ]
+        },
+        {
+            "name": "cch_TunableLiveSimCron",
+            "category": "Tunable",
+            "type": "string",
+            "format": "cron",
+            "required": false,
+            "default": "0 */10 8-18 * * MON-FRI",
+            "source": "default-or-operator-input",
+            "description": "Cron expression for the live-events simulator (default: every 10 min, Mon-Fri, 8 AM-6 PM in cch_TunableTimezone).",
+            "readBy": [
+                "Live-events simulator flow"
+            ]
+        },
+        {
+            "name": "cch_TunableDemoRefreshCron",
+            "category": "Tunable",
+            "type": "string",
+            "format": "cron",
+            "required": false,
+            "default": "0 0 5 * * *",
+            "source": "default-or-operator-input",
+            "description": "Cron expression for the daily demo-data refresh flow (default: 5 AM Eastern).",
+            "readBy": [
+                "Daily refresh flow"
+            ]
+        },
+        {
+            "name": "cch_TunableMdrClockHours",
+            "category": "Tunable",
+            "type": "integer",
+            "format": "positive-int",
+            "required": false,
+            "default": 18,
+            "source": "default-or-operator-input",
+            "description": "Hours remaining on the MDR clock for the V4 hero complaint after each daily refresh (always tense, never expired).",
+            "readBy": [
+                "V4 complaint reset flow"
+            ]
+        },
+        {
+            "name": "cch_TunableShipmentStepSeconds",
+            "category": "Tunable",
+            "type": "integer",
+            "format": "positive-int",
+            "required": false,
+            "default": 30,
+            "source": "default-or-operator-input",
+            "description": "Seconds between Shipment lifecycle stage transitions (compressed-time so audience visibly sees status change during demo).",
+            "readBy": [
+                "Shipment lifecycle advancer flow"
+            ]
+        },
+        {
+            "name": "cch_TunableTimezone",
+            "category": "Tunable",
+            "type": "string",
+            "format": "windows-timezone-id",
+            "required": false,
+            "default": "Eastern Standard Time",
+            "source": "default-or-operator-input",
+            "description": "Windows timezone id used by all scheduled flows + UI date rendering (Topic 7 lock).",
+            "readBy": [
+                "All scheduled flows",
+                "Code App + Pages date rendering"
+            ]
+        },
+        {
+            "name": "cch_FeatureV1PatientPortal",
+            "category": "Feature",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "source": "default-or-operator-input",
+            "description": "When false: Pages V1 nav hidden, registration form disabled.",
+            "readBy": [
+                "sites/continuum-portal/ V1 routes"
+            ]
+        },
+        {
+            "name": "cch_FeatureV2HCPPortal",
+            "category": "Feature",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "source": "default-or-operator-input",
+            "description": "When false: Pages V2 auth area hidden.",
+            "readBy": [
+                "sites/continuum-portal/ V2 routes"
+            ]
+        },
+        {
+            "name": "cch_FeatureV3FieldCompanion",
+            "category": "Feature",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "source": "default-or-operator-input",
+            "description": "When false: Code App 'My Day' / Account 360 hidden.",
+            "readBy": [
+                "apps/field-companion/ V3 routes"
+            ]
+        },
+        {
+            "name": "cch_FeatureV4QualityTriage",
+            "category": "Feature",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "source": "default-or-operator-input",
+            "description": "When false: Quality nav hidden in Code App; cch_TriggerQualityTriage disabled.",
+            "readBy": [
+                "apps/field-companion/ V4 routes",
+                "cch_TriggerQualityTriage"
+            ]
+        },
+        {
+            "name": "cch_FeatureV5EnablementKnowledge",
+            "category": "Feature",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "source": "default-or-operator-input",
+            "description": "When false: Knowledge tab hidden.",
+            "readBy": [
+                "apps/field-companion/ V5 Knowledge tab"
+            ]
+        },
+        {
+            "name": "cch_FeatureV6ExtendEverywhere",
+            "category": "Feature",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "source": "default-or-operator-input",
+            "description": "When false: Teams app + SP webpart + M365 publish skipped at install.",
+            "readBy": [
+                "install.ps1 V6 surface provisioning",
+                "Teams app manifest"
+            ]
+        },
+        {
+            "name": "cch_FeatureLiveSim",
+            "category": "Feature",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "source": "default-or-operator-input",
+            "description": "When false: live-sim flow paused regardless of cch_LiveSimSetting singleton.",
+            "readBy": [
+                "Live-events simulator flow"
+            ]
+        },
+        {
+            "name": "cch_FeatureDailyRefresh",
+            "category": "Feature",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "source": "default-or-operator-input",
+            "description": "When false: daily refresh flow paused.",
+            "readBy": [
+                "Daily refresh flow"
+            ]
+        },
+        {
+            "name": "cch_FeatureDemoModeBanner",
+            "category": "Feature",
+            "type": "boolean",
+            "required": false,
+            "default": true,
+            "source": "default-or-operator-input",
+            "description": "Escape hatch only. When false: <DemoModeBanner/> returns null. Locked-on for actual demos (Topic 2).",
+            "readBy": [
+                "<DemoModeBanner/> component"
+            ]
+        },
+        {
+            "name": "cch_BrandCompanyName",
+            "category": "Brand",
+            "type": "string",
+            "required": false,
+            "default": "Contoso Continuum Health",
+            "source": "default-or-operator-input",
+            "description": "Company name in UI footer + agent salutations + grounding docs.",
+            "readBy": [
+                "UI shell footer",
+                "Agent system prompts",
+                "Templated-doc rendering"
+            ]
+        },
+        {
+            "name": "cch_BrandPrimaryColor",
+            "category": "Brand",
+            "type": "string",
+            "format": "hex-color",
+            "required": false,
+            "default": "#0E7C86",
+            "source": "default-or-operator-input",
+            "description": "Brand primary teal (locked Topic 2).",
+            "readBy": [
+                "Fluent UI v9 brand ramp in theme.ts",
+                "Adaptive Card severity-color border defaults"
+            ]
+        },
+        {
+            "name": "cch_BrandFooterDisclaimer",
+            "category": "Brand",
+            "type": "string",
+            "required": false,
+            "default": "This is a personal demo asset by Philip Urban (Microsoft Solution Engineer). Not a Microsoft product, sample, or reference architecture. All data is synthetic. AS-IS, no warranty, no support. MIT-licensed.",
+            "source": "default-or-operator-input",
+            "description": "Microsoft-fictitious-disclaimer footer wording (Topic 2 + Topic 9 'What this is NOT').",
+            "readBy": [
+                "UI footer (Pages + Code App)",
+                "Grounding doc footer"
+            ]
+        },
+        {
+            "name": "cch_BrandDemoModeBannerText",
+            "category": "Brand",
+            "type": "string",
+            "required": false,
+            "default": "Demo mode \u2014 synthetic data only",
+            "source": "default-or-operator-input",
+            "description": "Text shown in <DemoModeBanner/> top strip (Topic 2 lock).",
+            "readBy": [
+                "<DemoModeBanner/> component"
+            ]
+        }
+    ]
+}
