@@ -1,0 +1,56 @@
+# CODEOWNERS — HLS Power Platform Demo
+#
+# Locked per Topic 10 + Topic 11 §C6/§C7 corrections.
+# Single-operator today; role labels in comments future-proof multi-contributor.
+#
+# Pattern: <path> <owner> # <role label>
+# Order matters — last match wins.
+
+# ─────────────────────────────────────────────
+# Default owner — catches anything not matched below
+# ─────────────────────────────────────────────
+*                                    @PhillyUrbs
+
+# ─────────────────────────────────────────────
+# Per-folder ownership (matches subfolder AGENTS.md)
+# ─────────────────────────────────────────────
+/solutions/ContinuumHealthDemo/      @PhillyUrbs   # Dataverse-Engineer
+/apps/field-companion/               @PhillyUrbs   # CodeApp-Engineer (primary); Pages-Engineer co-owns shared component library
+/sites/continuum-portal/             @PhillyUrbs   # Pages-Engineer
+/agents/                             @PhillyUrbs   # Agent-Builder
+/scripts/                            @PhillyUrbs   # Lead (primary) + Tester
+/scripts/governance/                 @PhillyUrbs   # Governance (content); Lead orchestrates emission
+/data/                               @PhillyUrbs   # Dataverse-Engineer (skeletons + seed) + Tester (fixtures) + Scribe (knowledge prose)
+/data/knowledge/                     @PhillyUrbs   # Scribe (prose) + Agent-Builder (per-agent review) + Dataverse-Engineer (skeleton review)
+/docs/                               @PhillyUrbs   # Scribe
+/docs/_planning/                     @PhillyUrbs   # Scribe (locked planning artifacts; changes need a `decisions.md` entry)
+
+# ─────────────────────────────────────────────
+# Squad team state (committed)
+# ─────────────────────────────────────────────
+/.squad/                             @PhillyUrbs   # Lead + Scribe
+/.squad/charter.md                   @PhillyUrbs   # Lead authors; Scribe records changes
+/.squad/decisions.md                 @PhillyUrbs   # Scribe (any role may submit via inbox pattern)
+/.squad/phase.json                   @PhillyUrbs   # Lead only — phase transitions
+/.squad/agents/                      @PhillyUrbs   # Each role owns own subfolder; reviewed by Lead
+
+# ─────────────────────────────────────────────
+# Repo-wide config (Lead governs; cross-cutting)
+# ─────────────────────────────────────────────
+/.github/                            @PhillyUrbs   # Lead
+/.github/copilot-instructions.md     @PhillyUrbs   # Lead (locked decisions; changes need a `decisions.md` entry)
+/.github/workflows/                  @PhillyUrbs   # Tester (CI) + Lead (squad workflows)
+/.github/CODEOWNERS                  @PhillyUrbs   # Lead
+/.github/pull_request_template.md    @PhillyUrbs   # Lead
+/.vscode/                            @PhillyUrbs   # Lead
+/.copilot/                           @PhillyUrbs   # Lead
+
+# ─────────────────────────────────────────────
+# Locked top-level docs
+# ─────────────────────────────────────────────
+/AGENTS.md                           @PhillyUrbs   # Lead (root agent guidance)
+/README.md                           @PhillyUrbs   # Scribe + Lead review
+/LICENSE                             @PhillyUrbs   # Lead (do not change without explicit user approval)
+/.gitignore                          @PhillyUrbs   # Lead
+/.gitattributes                      @PhillyUrbs   # Lead
+/.env.example                        @PhillyUrbs   # Lead (Topic 4 spec)
