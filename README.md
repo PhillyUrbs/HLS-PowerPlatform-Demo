@@ -16,9 +16,11 @@ and deploy directly.
 
 ## Status
 
-🚧 **Planning complete; Phase 0 implementation kicking off.** The full plan lives under
-[docs/_planning/](docs/_planning/) (handoff + 11 topic docs). Anything outside that
-folder is still work-in-progress.
+🚧 **Planning complete; Phase 0 implementation in progress.** The full plan lives under
+[docs/_planning/](docs/_planning/) (handoff + 11 topic docs); Phase 0 progress is tracked
+in [.squad/phase.json](.squad/phase.json) with a 14-item completion checklist. Anything
+outside `docs/_planning/`, `.squad/`, `.github/`, `.vscode/`, `scripts/`, and the root
+scaffolding files is still work-in-progress.
 
 ## Scenario at a glance
 
