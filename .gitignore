@@ -171,6 +171,15 @@ desktop.ini
 *.pfx
 secrets/
 
+# Operator-edited deployment settings (Topic 4 lock — never commit; template is
+# scripts/deployment-settings.json.template which IS committed)
+scripts/deployment-settings.json
+
+# Per-script run logs (governance scripts + future doctor/install logs)
+scripts/.last-run/
+scripts/governance/.last-run/
+scripts/**/.last-run/
+
 # Power Platform — pac CLI artifacts
 .pac/
 *.pacx
