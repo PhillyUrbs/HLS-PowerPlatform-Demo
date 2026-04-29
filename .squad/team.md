@@ -19,9 +19,9 @@ Locked roster: 9 roles per [Topic 10](../docs/_planning/topic-10-squad-charter.m
 | Pages-Engineer | Power Pages Code Site, web roles, Web API, Pages auth | [agents/pages-engineer/charter.md](agents/pages-engineer/charter.md) | active |
 | CodeApp-Engineer | Power Apps Code App, Demo Health, persona switcher, agent embed | [agents/codeapp-engineer/charter.md](agents/codeapp-engineer/charter.md) | active |
 | Flows-Engineer | Power Automate flows (~30–34 total) | [agents/flows-engineer/charter.md](agents/flows-engineer/charter.md) | active |
-| Agent-Builder | Copilot Studio agents (Patient Support, Quality Triage, Continuum Enablement) | [agents/agent-builder/charter.md](agents/agent-builder/charter.md) | active |
+| Agent-Builder | Copilot Studio agents (3 of them) | [agents/agent-builder/charter.md](agents/agent-builder/charter.md) | active |
 | Governance | DLP, Managed Env, audit, Pipelines, permissions, M365 readiness | [agents/governance/charter.md](agents/governance/charter.md) | active |
-| Tester | doctor.ps1, smoke suite, Tier-1 + Tier-3 GitHub Actions, per-vignette Playwright E2Es (embedded) | [agents/tester/charter.md](agents/tester/charter.md) | active |
+| Tester | Quality infra: doctor, smoke, CI workflows, E2Es (embedded) | [agents/tester/charter.md](agents/tester/charter.md) | active |
 | Scribe | Decisions, knowledge prose, demo script Phase-6, voice & tone short-doc | [agents/scribe/charter.md](agents/scribe/charter.md) | active |
 
 ## Project Context
