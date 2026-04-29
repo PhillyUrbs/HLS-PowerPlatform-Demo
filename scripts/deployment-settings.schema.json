@@ -1,0 +1,379 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/PhillyUrbs/HLS-PowerPlatform-Demo/scripts/deployment-settings.schema.json",
+    "title": "HLS Power Platform Demo — deployment-settings.json",
+    "description": "Operator-edited file consumed by install.ps1 / upgrade.ps1. The actual file (scripts/deployment-settings.json) is gitignored; the template (deployment-settings.json.template) is committed. Per Topic 4: categorized object with one top-level key per env-var category + superUsers array + connections override map.",
+    "type": "object",
+    "additionalProperties": true,
+    "required": [
+        "environment",
+        "superUsers",
+        "tenant",
+        "urls",
+        "ids",
+        "secrets"
+    ],
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "_comment": {
+            "type": "string"
+        },
+        "environment": {
+            "type": "object",
+            "required": [
+                "name",
+                "url"
+            ],
+            "properties": {
+                "_comment": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "url": {
+                    "type": "string",
+                    "pattern": "^https://.+\\.(crm[0-9]*\\.dynamics\\.com|dynamics\\.com)/?$",
+                    "description": "Dataverse environment URL (e.g. https://orgxxxx.crm.dynamics.com)."
+                },
+                "region": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "superUsers": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "string",
+                "format": "email",
+                "description": "Demo super user UPN. Per locked Flavor-A: array of equals; install.ps1 assigns the same security roles to each."
+            }
+        },
+        "tenant": {
+            "type": "object",
+            "required": [
+                "id",
+                "domain"
+            ],
+            "properties": {
+                "_comment": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string",
+                    "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$|^<set-me:.+>$"
+                },
+                "domain": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "urls": {
+            "type": "object",
+            "properties": {
+                "_comment": {
+                    "type": "string"
+                },
+                "cch_UrlSharePointSite": {
+                    "$ref": "#/$defs/urlOrPlaceholder"
+                },
+                "cch_UrlPagesSite": {
+                    "$ref": "#/$defs/urlOrNull"
+                },
+                "cch_UrlCodeApp": {
+                    "$ref": "#/$defs/urlOrNull"
+                },
+                "cch_UrlTeamsTenant": {
+                    "$ref": "#/$defs/urlOrNull"
+                },
+                "cch_UrlGraphBase": {
+                    "$ref": "#/$defs/urlOrNull"
+                }
+            },
+            "required": [
+                "cch_UrlSharePointSite"
+            ],
+            "additionalProperties": false
+        },
+        "ids": {
+            "type": "object",
+            "properties": {
+                "_comment": {
+                    "type": "string"
+                },
+                "cch_IdTeamsTeam": {
+                    "$ref": "#/$defs/guidOrNull"
+                },
+                "cch_IdTeamsChannelQuality": {
+                    "$ref": "#/$defs/guidOrNull"
+                },
+                "cch_IdTeamsChannelLeadership": {
+                    "$ref": "#/$defs/guidOrNull"
+                },
+                "cch_IdTeamsChannelField": {
+                    "$ref": "#/$defs/guidOrNull"
+                },
+                "cch_IdTeamsChannelEnablement": {
+                    "$ref": "#/$defs/guidOrNull"
+                },
+                "cch_IdSharePointLibraryKnowledge": {
+                    "$ref": "#/$defs/guidOrNull"
+                },
+                "cch_IdAgentPatientSupport": {
+                    "$ref": "#/$defs/guidOrNull"
+                },
+                "cch_IdAgentQualityTriage": {
+                    "$ref": "#/$defs/guidOrNull"
+                },
+                "cch_IdAgentEnablement": {
+                    "$ref": "#/$defs/guidOrNull"
+                },
+                "cch_IdEntraAppPagesAuth": {
+                    "$ref": "#/$defs/guidOrNull"
+                },
+                "cch_IdEntraAppServicePrincipal": {
+                    "$ref": "#/$defs/guidOrNull"
+                },
+                "cch_IdPipelinesHostEnv": {
+                    "$ref": "#/$defs/guidOrNull"
+                }
+            },
+            "additionalProperties": false
+        },
+        "secrets": {
+            "type": "object",
+            "properties": {
+                "_comment": {
+                    "type": "string"
+                },
+                "cch_SecretDirectLinePatientSupport": {
+                    "$ref": "#/$defs/secretRef"
+                },
+                "cch_SecretDirectLineQualityTriage": {
+                    "$ref": "#/$defs/secretRef"
+                },
+                "cch_SecretDirectLineEnablement": {
+                    "$ref": "#/$defs/secretRef"
+                },
+                "cch_SecretGraphAppClient": {
+                    "$ref": "#/$defs/secretRef"
+                },
+                "cch_SecretSPClient": {
+                    "$ref": "#/$defs/secretRef"
+                }
+            },
+            "required": [
+                "cch_SecretDirectLinePatientSupport",
+                "cch_SecretDirectLineQualityTriage",
+                "cch_SecretDirectLineEnablement",
+                "cch_SecretGraphAppClient",
+                "cch_SecretSPClient"
+            ],
+            "additionalProperties": false
+        },
+        "tunables": {
+            "type": "object",
+            "properties": {
+                "_comment": {
+                    "type": "string"
+                },
+                "cch_TunableLiveSimCron": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "cch_TunableDemoRefreshCron": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "cch_TunableMdrClockHours": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ],
+                    "minimum": 1
+                },
+                "cch_TunableShipmentStepSeconds": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ],
+                    "minimum": 1
+                },
+                "cch_TunableTimezone": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
+        "featureFlags": {
+            "type": "object",
+            "properties": {
+                "_comment": {
+                    "type": "string"
+                },
+                "cch_FeatureV1PatientPortal": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "cch_FeatureV2HCPPortal": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "cch_FeatureV3FieldCompanion": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "cch_FeatureV4QualityTriage": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "cch_FeatureV5EnablementKnowledge": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "cch_FeatureV6ExtendEverywhere": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "cch_FeatureLiveSim": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "cch_FeatureDailyRefresh": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "cch_FeatureDemoModeBanner": {
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
+        "brand": {
+            "type": "object",
+            "properties": {
+                "_comment": {
+                    "type": "string"
+                },
+                "cch_BrandCompanyName": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "cch_BrandPrimaryColor": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^#[0-9A-Fa-f]{6}$|^null$"
+                },
+                "cch_BrandFooterDisclaimer": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "cch_BrandDemoModeBannerText": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
+        "connections": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string",
+                "enum": [
+                    "sp",
+                    "interactive"
+                ],
+                "description": "Per-connection-reference owner override per Topic 3 §3.7 hybrid pattern."
+            }
+        }
+    },
+    "$defs": {
+        "urlOrPlaceholder": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "pattern": "^https://.+"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^<set-me:.+>$"
+                }
+            ]
+        },
+        "urlOrNull": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "pattern": "^https?://.+"
+                },
+                {
+                    "type": "null"
+                }
+            ]
+        },
+        "guidOrNull": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                },
+                {
+                    "type": "null"
+                }
+            ]
+        },
+        "secretRef": {
+            "type": "string",
+            "oneOf": [
+                {
+                    "pattern": "^plain:.+",
+                    "description": "Development mode: plain:<value>. Doctor flags as info-level finding."
+                },
+                {
+                    "pattern": "^kv:[^/]+/[^?]+(\\?version=.+)?$",
+                    "description": "Key Vault mode: kv:<keyVault>/<secret>[?version=<v>]. Resolved via Resolve-Secret in scripts/lib/Secrets.ps1 or cch_ResolveSecret child flow at runtime."
+                }
+            ]
+        }
+    }
+}
