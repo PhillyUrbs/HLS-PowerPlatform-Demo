@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/PhillyUrbs/HLS-PowerPlatform-Demo/.squad/phase.schema.json",
+  "title": "Squad Phase Tracker",
+  "description": "Tracks the current implementation phase. Lead PRs updates; Tier-1 lints PR file paths against allowedFolders / warningFolders as a soft warning gate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "currentPhase",
+    "currentPhaseName",
+    "phaseStartedAt",
+    "allowedFolders",
+    "warningFolders",
+    "completionChecklist"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Path to this schema file for editor IntelliSense."
+    },
+    "currentPhase": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 6,
+      "description": "Current phase number. 0 = Tenant & governance setup; 1 = Data model & seed; 2 = Power Pages Code Site; 3 = Power Apps Code App; 4 = Power Automate flows; 5 = Copilot Studio agents; 6 = Demo script & polish."
+    },
+    "currentPhaseName": {
+      "type": "string",
+      "description": "Human-readable phase name. Must match the standard phase name for the currentPhase number."
+    },
+    "phaseStartedAt": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO date when this phase started. Used by Tier-1 to detect stale phase.json (warns if phase >30 days old with active commits)."
+    },
+    "allowedFolders": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Folders/paths that PRs are expected to touch in this phase. No warning if PR only touches these."
+    },
+    "warningFolders": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Folders/paths that PRs should NOT typically touch in this phase. Tier-1 warns (does not block) if a PR touches one of these. Lead can dismiss the warning by adding a 'phase-cross-cutting' label or by transitioning the phase."
+    },
+    "completionChecklist": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Human-checkable items that must all be done before transitioning to the next phase. Lead's responsibility to track."
+    }
+  }
+}

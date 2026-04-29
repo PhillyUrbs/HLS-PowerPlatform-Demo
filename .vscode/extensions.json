@@ -3,29 +3,23 @@
     // GitHub Copilot — core to this project
     "github.copilot",
     "github.copilot-chat",
-
     // Power Platform
     "microsoft-IsvExpTools.powerplatform-vscode",
     "ms-copilotstudio.vscode-copilotstudio",
-
     // Azure (build-time only; runtime is 100% Power Platform + M365 per locked decision)
     "ms-azuretools.vscode-azurefunctions",
     "ms-azuretools.vscode-azureresourcegroups",
     "ms-azuretools.vscode-bicep",
-
     // GitHub workflow
     "github.vscode-pull-request-github",
     "github.vscode-github-actions",
-
     // Web app stack (Power Pages Code Site + Power Apps Code App)
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-
     // Data & docs
     "redhat.vscode-yaml",
     "mechatroner.rainbow-csv",
     "bierner.markdown-mermaid",
-
     // Quality of life
     "usernamehw.errorlens",
     "ms-vscode.powershell"

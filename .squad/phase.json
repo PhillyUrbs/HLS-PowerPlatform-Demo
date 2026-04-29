@@ -1,0 +1,41 @@
+{
+  "$schema": "./phase.schema.json",
+  "currentPhase": 0,
+  "currentPhaseName": "Tenant & governance setup",
+  "phaseStartedAt": "2026-04-29",
+  "allowedFolders": [
+    "scripts/",
+    "docs/",
+    ".squad/",
+    ".github/",
+    ".vscode/",
+    ".copilot/",
+    "data/names/"
+  ],
+  "warningFolders": [
+    "solutions/",
+    "apps/",
+    "sites/",
+    "agents/",
+    "data/seed.ts",
+    "data/offsets.ts",
+    "data/fixtures/",
+    "data/knowledge/"
+  ],
+  "completionChecklist": [
+    "Pending local-only files committed (handoff §2 list)",
+    "squad init run (with locked 9-role roster, not defaults)",
+    ".squad/charter.md + 7 subfolder AGENTS.md committed",
+    ".squad/decisions.md seeded with 11 entries (Topics 1–11 with A1–A3 sub-bullets)",
+    "PR template + CODEOWNERS committed",
+    "Branch protection on main requiring Tier-1",
+    "Tier-1 GitHub Actions workflow skeleton committed",
+    "scripts/install.ps1, upgrade.ps1, uninstall.ps1, doctor.ps1 skeletons committed",
+    "scripts/lib/EnvVarManifest.json committed",
+    "scripts/deployment-settings.json.template + schema committed",
+    "scripts/governance/Apply-*.ps1 + Provision-Pipelines.ps1 committed (--whatif default)",
+    "9 first-PR-target GitHub issues opened with phase + role labels",
+    "scripts/Setup-ServicePrincipal.ps1 + install.ps1 entra-app-reg provisioning real (Topic 11 §A3)",
+    "Phase-0 verification checklist passed; human approves transition to Phase 1"
+  ]
+}

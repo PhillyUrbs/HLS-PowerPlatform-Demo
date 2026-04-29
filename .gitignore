@@ -204,3 +204,9 @@ test-results/
 # Generated docs assets we don't want to track yet
 docs/assets/_generated/
 
+# Squad: ignore runtime state (logs, inbox, sessions)
+.squad/decisions/inbox/
+.squad/sessions/
+.squad/.scratch/
+# Squad: SubSquad activation file (local to this machine)
+.squad-workstream
