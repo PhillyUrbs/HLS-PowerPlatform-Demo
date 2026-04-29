@@ -128,16 +128,16 @@ if (-not $DeploymentSettingsPath) {
 }
 
 # ─── Banner ─────────────────────────────────────────────────────────────────
-$bannerMode = if ($Apply) { '[APPLY]' } else { '[WHATIF — no mutation; pass -Apply to actually run]' }
+$bannerMode = if ($Apply) { '[APPLY]' } else { '[WHATIF -- no mutation; pass -Apply to actually run]' }
 Write-Host ""
-Write-Host "─── HLS Power Platform Demo — install.ps1 ─────────────────────────────" -ForegroundColor Cyan
+Write-Host "--- HLS Power Platform Demo - install.ps1 ----------------------------" -ForegroundColor Cyan
 Write-Host "  Mode:                      $Mode"
 Write-Host "  Deployment settings:       $DeploymentSettingsPath"
 Write-Host "  Apply:                     $bannerMode"
 Write-Host "  Non-interactive:           $($NonInteractive.IsPresent)"
 Write-Host "  Log level:                 $LogLevel"
 Write-Host "  Repo root:                 $repoRoot"
-Write-Host "────────────────────────────────────────────────────────────────────────" -ForegroundColor Cyan
+Write-Host "----------------------------------------------------------------------" -ForegroundColor Cyan
 Write-Host ""
 
 # ─── Mode dispatcher ────────────────────────────────────────────────────────
@@ -154,25 +154,80 @@ function Invoke-NotImplemented {
 
 switch ($Mode) {
     'install' {
-        # TODO Lead (Sitting 4g+):
-        #   1. Validate deployment-settings.json against deployment-settings.schema.json
-        #   2. Prompt for missing required env vars (unless -NonInteractive)
-        #   3. Provision Entra app regs (cch_IdEntraAppPagesAuth + cch_IdEntraAppServicePrincipal)
-        #      — see Setup-ServicePrincipal.ps1 (Sitting 4g per Topic 11 §A3)
-        #   4. Provision SharePoint site + Continuum Knowledge library + 4 subfolders
-        #   5. Provision Teams team + 4 channels (Quality, Leadership, Field, Enablement)
-        #      + add SP to team membership; prompt for Graph admin consent for ChannelMessage.Send
-        #   6. Import solution (pac solution import) — empty in Phase 0; tables land Phase 1
-        #   7. Populate Dataverse env vars from settings + EnvVarManifest defaults
-        #   8. Run baseline migration (0001_baseline.ps1) — stamps cch_DeploymentVersion
-        #   9. Insert seed data (via data/seed.ts when Phase 1 ships)
-        #  10. Emit governance scripts (scripts/governance/*.ps1) per Topic 5; print paths.
-        #      Do NOT run them.
-        #  11. Run smoke suite (scripts/lib/Smoke.ps1) — Sitting 5+
-        #  12. Print pre-demo checklist + Demo Health URL
-        Invoke-NotImplemented `
-            -What "install: full first-time provision" `
-            -Topic "Topic 4 (env vars), Topic 5 (governance), Topic 11 §A3 (Entra sequencing)"
+        # Per Topic 11 section A3 (Lead PR #2 sequencing), Sitting 4g implements
+        # steps 1–3 of the install pipeline (validate + provision Entra apps).
+        # Steps 4–12 remain TODO; they're called out below as labeled stubs so the
+        # full pipeline shape is visible even before each step is filled in.
+
+        Write-Host "[install] Step 1/12: validate deployment-settings.json shape" -ForegroundColor Cyan
+        # Read-DeploymentSettings already validates required top-level keys.
+        # TODO Lead (Sitting 6+): full ajv-cli validation against
+        #   scripts/deployment-settings.schema.json (faster + stricter than the
+        #   manual key check in Read-DeploymentSettings).
+        . (Join-Path $PSScriptRoot 'lib/Governance.ps1')
+        $settings = Read-DeploymentSettings -Path $DeploymentSettingsPath
+        Write-Host "  pass: settings parsed; targeting '$($settings.environment.name)'" -ForegroundColor Green
+        Write-Host ""
+
+        Write-Host "[install] Step 2/12: prompt for missing required env vars" -ForegroundColor Cyan
+        # TODO Lead (Sitting 6+): cross-reference scripts/lib/EnvVarManifest.json
+        # 'required' field; for each missing required value, prompt operator
+        # (unless -NonInteractive, in which case fail fast with the list).
+        Write-Host "  [NotImplemented step] env-var prompting" -ForegroundColor Yellow
+        Write-Host "    Will iterate scripts/lib/EnvVarManifest.json 'required' entries." -ForegroundColor DarkGray
+        Write-Host ""
+
+        Write-Host "[install] Step 3/12: provision Entra app registrations" -ForegroundColor Cyan
+        Write-Host "  3a. Service principal (Setup-ServicePrincipal.ps1)" -ForegroundColor DarkCyan
+        if (-not $Apply) {
+            Write-Host "    [whatif] Would invoke: pwsh ./scripts/Setup-ServicePrincipal.ps1 $(if ($NonInteractive) { '-NonInteractive ' })-Apply" -ForegroundColor DarkGray
+            Write-Host "    Run with -Apply to actually provision." -ForegroundColor DarkGray
+        } else {
+            Write-Host "    [Apply] Invoking Setup-ServicePrincipal.ps1 -Apply..." -ForegroundColor Yellow
+            $spScript = Join-Path $PSScriptRoot 'Setup-ServicePrincipal.ps1'
+            & $spScript -Apply -DeploymentSettingsPath $DeploymentSettingsPath
+            if ($LASTEXITCODE -ne 0) {
+                Write-Error "[install] Step 3a failed (Setup-ServicePrincipal exit $LASTEXITCODE). Aborting."
+                exit 2
+            }
+            # Re-read settings since Setup-ServicePrincipal.ps1 wrote back
+            $settings = Read-DeploymentSettings -Path $DeploymentSettingsPath
+            Write-Host "    pass: cch_IdEntraAppServicePrincipal populated" -ForegroundColor Green
+        }
+        Write-Host ""
+
+        Write-Host "  3b. Pages auth Entra app (scripts/lib/EntraApps.ps1)" -ForegroundColor DarkCyan
+        # Pages app reg needs cch_UrlPagesSite to set the redirect URI.
+        # In a fresh install, that URL doesn't exist yet (Pages site provisions
+        # in step 7+). Two-pass options:
+        #   Option A: provision Pages site FIRST, then Pages app reg using the URL.
+        #   Option B: provision Pages app reg with placeholder, update redirect URI after.
+        # Option A is cleaner; we defer 3b until after Pages site provisioning lands.
+        Write-Host "    [NotImplemented step] Pages auth Entra app reg" -ForegroundColor Yellow
+        Write-Host "    Sequencing: needs cch_UrlPagesSite (step 7+) before redirect URI can be set." -ForegroundColor DarkGray
+        Write-Host "    Lib is ready: . scripts/lib/EntraApps.ps1; New-PagesAuthApp -DisplayName ... -PagesSiteUrl ..." -ForegroundColor DarkGray
+        Write-Host ""
+
+        Write-Host "[install] Steps 4-12: TODO subsequent sittings" -ForegroundColor DarkGray
+        Write-Host "  4. SharePoint site + Continuum Knowledge library + 4 subfolders" -ForegroundColor DarkGray
+        Write-Host "  5. Teams team + 4 channels + add SP + Graph admin consent for ChannelMessage.Send" -ForegroundColor DarkGray
+        Write-Host "  6. Import solution (pac solution import) -- empty in Phase 0; tables land Phase 1" -ForegroundColor DarkGray
+        Write-Host "  7. Populate Dataverse env vars from settings + EnvVarManifest defaults" -ForegroundColor DarkGray
+        Write-Host "     (also: sets cch_UrlPagesSite once Pages activates, then loops back to 3b)" -ForegroundColor DarkGray
+        Write-Host "  8. Run baseline migration (0001_baseline.ps1) -- stamps cch_DeploymentVersion" -ForegroundColor DarkGray
+        Write-Host "  9. Insert seed data (via data/seed.ts when Phase 1 ships)" -ForegroundColor DarkGray
+        Write-Host " 10. Emit governance scripts (scripts/governance/*.ps1); print paths. Do NOT run them." -ForegroundColor DarkGray
+        Write-Host " 11. Run smoke suite (scripts/lib/Smoke.ps1) -- Sitting 5+" -ForegroundColor DarkGray
+        Write-Host " 12. Print pre-demo checklist + Demo Health URL" -ForegroundColor DarkGray
+        Write-Host ""
+
+        if (-not $Apply) {
+            Write-Host "[install] --whatif preview complete. Pass -Apply to actually run step 3a." -ForegroundColor Green
+        } else {
+            Write-Host "[install] Steps 1 + 3a complete. Steps 2 + 3b + 4-12 await subsequent sittings." -ForegroundColor Yellow
+        }
+        # Exit 0 (preview success) regardless of -Apply, since the implemented steps did the right thing.
+        exit 0
     }
 
     'upgrade' {

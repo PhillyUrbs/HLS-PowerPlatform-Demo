@@ -25,6 +25,45 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+function Test-PSObjectProperty {
+    <#
+    .SYNOPSIS
+        StrictMode-safe check for whether a PSCustomObject has a named property.
+
+        Why this exists: under Set-StrictMode -Version Latest, accessing
+        $obj.PSObject.Properties.Name on an empty PSCustomObject throws
+        ("The property 'Name' cannot be found on this object"). This helper
+        wraps the gotcha so callers don't repeat the workaround.
+    #>
+    [CmdletBinding()]
+    [OutputType([bool])]
+    param(
+        [Parameter(Mandatory)] [psobject] $InputObject,
+        [Parameter(Mandatory)] [string]   $PropertyName
+    )
+    $properties = @($InputObject.PSObject.Properties)
+    if ($properties.Count -eq 0) { return $false }
+    return ($properties.Name -contains $PropertyName)
+}
+
+function Set-PSObjectProperty {
+    <#
+    .SYNOPSIS
+        StrictMode-safe upsert of a PSCustomObject property. Adds if missing, sets if present.
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)] [psobject] $InputObject,
+        [Parameter(Mandatory)] [string]   $PropertyName,
+        [Parameter(Mandatory)] [AllowNull()] $Value
+    )
+    if (Test-PSObjectProperty -InputObject $InputObject -PropertyName $PropertyName) {
+        $InputObject.$PropertyName = $Value
+    } else {
+        $InputObject | Add-Member -MemberType NoteProperty -Name $PropertyName -Value $Value
+    }
+}
+
 function Get-RepoRoot {
     [CmdletBinding()]
     [OutputType([string])]
@@ -128,6 +167,10 @@ function Invoke-GovernanceNotImplemented {
     .SYNOPSIS
         Standard skeleton exit per Topic 11 section C3 -- Phase-0 governance scripts emit
         the planned action plan (preview), then exit 99.
+
+        Use this for scripts where the implementation is not yet written. For scripts
+        that ARE implemented but are running in --whatif preview mode, use
+        Show-GovernancePreview instead (exits 0).
     #>
     [CmdletBinding()]
     param(
@@ -158,4 +201,33 @@ function Invoke-GovernanceNotImplemented {
     Write-Host "  Real implementation lands in a subsequent sitting." -ForegroundColor DarkGray
     Write-Host "  Exit code 99." -ForegroundColor DarkGray
     exit 99
+}
+
+function Show-GovernancePreview {
+    <#
+    .SYNOPSIS
+        Prints the planned actions for a real (implemented) script running in --whatif
+        mode, then exits 0. Use when the script body actually exists but the operator
+        hasn't passed -Apply.
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)] [string] $ScriptName,
+        [Parameter(Mandatory)]
+        [AllowEmptyCollection()]
+        [AllowEmptyString()]
+        [string[]] $PlannedActions
+    )
+    Write-Host "Planned actions (--whatif preview; pass -Apply to actually run):" -ForegroundColor DarkCyan
+    foreach ($action in $PlannedActions) {
+        if ([string]::IsNullOrWhiteSpace($action)) {
+            Write-Host ""
+        } else {
+            Write-Host "  $action" -ForegroundColor DarkGray
+        }
+    }
+    Write-Host ""
+    Write-Host "[whatif] '$ScriptName' preview complete. No mutations performed." -ForegroundColor Green
+    Write-Host "  Exit code 0." -ForegroundColor DarkGray
+    exit 0
 }
