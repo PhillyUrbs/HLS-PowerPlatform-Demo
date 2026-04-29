@@ -170,6 +170,44 @@ function Get-Section_EnvVars {
         -Title '[NotImplemented] Deployed Dataverse env-var check' `
         -Detail 'Lands in Phase 1+ once a target env exists.'
 
+    # Entra app reg checks (per Topic 11 section A3 / Lead PR #2 / Sitting 4g):
+    # We can already verify deployment-settings.json *contains* the two Entra app IDs
+    # without needing tenant access. Doctor stays read-only.
+    $settingsPath = Join-Path $repoRoot 'scripts/deployment-settings.json'
+    if (Test-Path $settingsPath) {
+        try {
+            $s = Get-Content $settingsPath -Raw | ConvertFrom-Json
+            $hasIds = ($s.PSObject.Properties.Name -contains 'ids') -and $s.ids -and (@($s.ids.PSObject.Properties).Count -gt 0)
+            foreach ($idName in @('cch_IdEntraAppServicePrincipal', 'cch_IdEntraAppPagesAuth')) {
+                $present = $false
+                $value = $null
+                if ($hasIds) {
+                    $props = @($s.ids.PSObject.Properties)
+                    if ($props.Name -contains $idName) {
+                        $value = $s.ids.$idName
+                        $present = ($null -ne $value -and $value -ne '')
+                    }
+                }
+                if ($present) {
+                    $findings += New-Finding -Id "envvars.entra.$idName.present" -Severity 'pass' `
+                        -Title "$idName populated in deployment-settings.json"
+                } else {
+                    $findings += New-Finding -Id "envvars.entra.$idName.missing" -Severity 'info' `
+                        -Title "$idName not yet populated" `
+                        -Detail 'Run scripts/Setup-ServicePrincipal.ps1 (for SP) or scripts/install.ps1 -Mode install (for Pages auth) to provision.'
+                }
+            }
+        } catch {
+            $findings += New-Finding -Id 'envvars.settings.parse-fail' -Severity 'warn' `
+                -Title 'deployment-settings.json failed to parse for Entra-id check' `
+                -Detail $_.Exception.Message
+        }
+    } else {
+        $findings += New-Finding -Id 'envvars.settings.missing' -Severity 'info' `
+            -Title 'deployment-settings.json not present' `
+            -Detail 'Operator copies scripts/deployment-settings.json.template before running install.ps1.'
+    }
+
     $findings
 }
 
@@ -304,11 +342,11 @@ if ($Json) {
     $result | ConvertTo-Json -Depth 10 -Compress
 } else {
     Write-Host ""
-    Write-Host "─── doctor.ps1 — read-only health check ───────────────────────────────" -ForegroundColor Cyan
+    Write-Host "--- doctor.ps1 - read-only health check ------------------------------" -ForegroundColor Cyan
     $vignetteLabel = if ($Vignette) { " [$Vignette]" } else { '' }
     Write-Host "  Run:    $runId" -ForegroundColor DarkGray
     Write-Host "  Mode:   $Mode$vignetteLabel" -ForegroundColor DarkGray
-    Write-Host "────────────────────────────────────────────────────────────────────────" -ForegroundColor Cyan
+    Write-Host "----------------------------------------------------------------------" -ForegroundColor Cyan
 
     foreach ($sectionResult in $result.sections) {
         Write-Host ""
