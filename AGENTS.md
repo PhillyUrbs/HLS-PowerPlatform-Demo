@@ -67,11 +67,9 @@ Full per-role charter (Mission · Owns · Doesn't own · Hand-offs · Definition
    (where `<N>` is the numeric phase 0–6 and `<name>` is kebab-case; e.g.
    `feature/p0-tier1-workflow`, `feature/p2-pages-shell`). PRs go to `main`.
    Squash-merge. Tier-1 lints the branch pattern as a warning.
-   **Branch preservation:** after squash-merge, **do NOT delete the branch**
-   (no `--delete-branch` flag on `gh pr merge`). Branches serve as an educational
-   archive showing how each PR was authored + iterated. Branches deleted before
-   this convention was set are reconstructed under `archive/pr<NN>-<name>` and
-   pushed to `origin`.
+   **After squash-merge, delete the branch** (`gh pr merge --squash --delete-branch`).
+   The PR conversation, inline reviews, and per-commit history are preserved on the
+   PR page itself; branch refs add no educational value beyond what the PR shows.
 
 8. **Never commit secrets.** Use `.env.local` (template `.env.example`).
 
