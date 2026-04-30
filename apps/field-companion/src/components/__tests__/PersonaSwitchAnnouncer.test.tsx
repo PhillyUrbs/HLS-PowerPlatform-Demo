@@ -39,7 +39,7 @@ describe('PersonaSwitchAnnouncer', () => {
           detail: {
             fromPersonaId: 'anonymous-visitor',
             fromPersonaRole: 'AnonymousVisitor',
-            toPersonaId: 'fcs-alex-rivera',
+            toPersonaId: 'fcs-nicole-wagner',
             toPersonaRole: 'FieldClinicalSpecialist',
             timestamp: new Date().toISOString(),
           },
