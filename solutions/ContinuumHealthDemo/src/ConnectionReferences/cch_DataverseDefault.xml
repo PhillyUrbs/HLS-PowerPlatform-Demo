@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<connectionreference Name="cch_DataverseDefault" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DisplayName>Continuum Health — Dataverse Default</DisplayName>
+  <ConnectionReferenceLogicalName>cch_DataverseDefault</ConnectionReferenceLogicalName>
+  <ConnectorId>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</ConnectorId>
+  <IsCustomizable>1</IsCustomizable>
+  <IsManaged>0</IsManaged>
+  <Descriptions>
+    <Description description="Default Dataverse connection reference used by cch_LogTelemetry and cch_IssueDirectLineToken to write telemetry events and read environment variable values." languagecode="1033" />
+  </Descriptions>
+</connectionreference>

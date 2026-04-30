@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<environmentvariabledefinition Name="cch_SecretDirectLinePatientSupport" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DisplayName>Secret — Direct Line Patient Support</DisplayName>
+  <Description>Direct Line secret for the Patient Support agent. Stored as a SecretRef (plain:&lt;value&gt; or kv:&lt;vault&gt;/&lt;name&gt;). Resolved at runtime via cch_ResolveSecret. Source: copilot-studio-channel-config.</Description>
+  <DataType>String</DataType>
+  <DefaultValue />
+  <IsRequired>1</IsRequired>
+  <IsCustomizable>1</IsCustomizable>
+  <LocalizedNames>
+    <LocalizedName description="Secret — Direct Line Patient Support" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="Direct Line secret for the Patient Support agent. Stored as a SecretRef (plain:&lt;value&gt; or kv:&lt;vault&gt;/&lt;name&gt;). Resolved at runtime via cch_ResolveSecret. Source: copilot-studio-channel-config." languagecode="1033" />
+  </Descriptions>
+</environmentvariabledefinition>

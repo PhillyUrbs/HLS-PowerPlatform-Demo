@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<environmentvariabledefinition Name="cch_IdAgentEnablement" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DisplayName>Agent ID — Enablement</DisplayName>
+  <Description>Continuum Enablement Copilot Studio agent ID (GUID). Used by cch_IssueDirectLineToken to identify which Direct Line secret to read. Source: published-by-copilot-studio.</Description>
+  <DataType>String</DataType>
+  <DefaultValue />
+  <IsRequired>1</IsRequired>
+  <IsCustomizable>1</IsCustomizable>
+  <LocalizedNames>
+    <LocalizedName description="Agent ID — Enablement" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="Continuum Enablement Copilot Studio agent ID (GUID). Used by cch_IssueDirectLineToken to identify which Direct Line secret to read. Source: published-by-copilot-studio." languagecode="1033" />
+  </Descriptions>
+</environmentvariabledefinition>
