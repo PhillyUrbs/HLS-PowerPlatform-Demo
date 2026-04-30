@@ -349,6 +349,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: |
+            sites/continuum-portal/package-lock.json
+            apps/field-companion/package-lock.json
       - name: Install continuum-portal deps
         if: steps.scope.outputs.run == 'true'
         working-directory: sites/continuum-portal
