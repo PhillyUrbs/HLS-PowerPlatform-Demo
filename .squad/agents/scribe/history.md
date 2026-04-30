@@ -12,6 +12,7 @@ Agent Scribe initialized and ready for work.
 📌 Team initialized on 2026-04-29
 📌 Phase 0 closed; Phase 1 opens (2026-04-29) — see [.squad/decisions.md](../../decisions.md) for full inventory across 7 sittings + 5 merged PRs.
 📌 Inbox-promotion run on 2026-04-30: 2 inbox entries (`agent-builder-patient-support-skeleton.md` + `flows-engineer-infrastructure-flows-pr1.md`) promoted into `.squad/decisions.md` Active Decisions. Inbox emptied. Inbox files were created by Copilot Cloud agents on PRs #23 + #24 in response to my review feedback (cross-cutting "decisions go in inbox, not directly into decisions.md" lesson — first time the pattern was followed by autonomous agents end-to-end).
+📌 Inbox-promotion run #2 on 2026-04-30: codeapp-engineer-app-scaffold.md promoted (composite entry covering 3 cross-cutting decisions + the .gitignore-inbox-defect fix discovered while authoring this file). Inbox emptied. v0.3.0 + v0.4.0 + v0.5.0 tagged at their respective merge commits.
 
 ## Learnings
 
