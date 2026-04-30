@@ -1,0 +1,363 @@
+{
+  "name": "cch_LogTelemetry",
+  "type": "Microsoft.ProcessSimple/operations/components",
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cch_DataverseDefault"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "a1b2c3d4-0002-4001-8001-000000000002"
+          },
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "title": "category",
+                  "type": "string",
+                  "x-ms-visibility": "important",
+                  "description": "One of: PersonaSwitch, VignetteBeat, AgentEvent, ClientError, PerformanceMark, DemoHealthControl"
+                },
+                "eventName": {
+                  "title": "eventName",
+                  "type": "string",
+                  "x-ms-visibility": "important",
+                  "description": "Structured event name (max 200 chars), e.g. toolcall.RequestReplacement.started"
+                },
+                "severity": {
+                  "title": "severity",
+                  "type": "string",
+                  "x-ms-visibility": "important",
+                  "description": "One of: Info, Warn, Error"
+                },
+                "correlationId": {
+                  "title": "correlationId",
+                  "type": "string",
+                  "description": "Correlation ID (max 64 chars) propagated from the originating call."
+                },
+                "payloadJson": {
+                  "title": "payloadJson",
+                  "type": "string",
+                  "description": "JSON-serialised payload. Redaction applied before storage: keys matching notes|narrative|description|message|free.*text are dropped."
+                }
+              },
+              "required": [
+                "category",
+                "eventName",
+                "severity"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Scope_LogTelemetry": {
+          "type": "Scope",
+          "actions": {
+            "Initialize_categoryValue": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "categoryValue",
+                    "type": "integer",
+                    "value": 100000002
+                  }
+                ]
+              },
+              "runAfter": {}
+            },
+            "Initialize_severityValue": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "severityValue",
+                    "type": "integer",
+                    "value": 100000000
+                  }
+                ]
+              },
+              "runAfter": {}
+            },
+            "Initialize_payloadOut": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "payloadOut",
+                    "type": "string",
+                    "value": "{}"
+                  }
+                ]
+              },
+              "runAfter": {}
+            },
+            "Switch_Category": {
+              "type": "Switch",
+              "expression": "@triggerBody()?['category']",
+              "cases": {
+                "Case_PersonaSwitch": {
+                  "case": "PersonaSwitch",
+                  "actions": {
+                    "Set_Category_PersonaSwitch": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "categoryValue",
+                        "value": 100000000
+                      },
+                      "runAfter": {}
+                    }
+                  }
+                },
+                "Case_VignetteBeat": {
+                  "case": "VignetteBeat",
+                  "actions": {
+                    "Set_Category_VignetteBeat": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "categoryValue",
+                        "value": 100000001
+                      },
+                      "runAfter": {}
+                    }
+                  }
+                },
+                "Case_AgentEvent": {
+                  "case": "AgentEvent",
+                  "actions": {
+                    "Set_Category_AgentEvent": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "categoryValue",
+                        "value": 100000002
+                      },
+                      "runAfter": {}
+                    }
+                  }
+                },
+                "Case_ClientError": {
+                  "case": "ClientError",
+                  "actions": {
+                    "Set_Category_ClientError": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "categoryValue",
+                        "value": 100000003
+                      },
+                      "runAfter": {}
+                    }
+                  }
+                },
+                "Case_PerformanceMark": {
+                  "case": "PerformanceMark",
+                  "actions": {
+                    "Set_Category_PerformanceMark": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "categoryValue",
+                        "value": 100000004
+                      },
+                      "runAfter": {}
+                    }
+                  }
+                },
+                "Case_DemoHealthControl": {
+                  "case": "DemoHealthControl",
+                  "actions": {
+                    "Set_Category_DemoHealthControl": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "categoryValue",
+                        "value": 100000005
+                      },
+                      "runAfter": {}
+                    }
+                  }
+                }
+              },
+              "default": {
+                "actions": {}
+              },
+              "runAfter": {
+                "Initialize_categoryValue": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Switch_Severity": {
+              "type": "Switch",
+              "expression": "@triggerBody()?['severity']",
+              "cases": {
+                "Case_Info": {
+                  "case": "Info",
+                  "actions": {
+                    "Set_Severity_Info": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "severityValue",
+                        "value": 100000000
+                      },
+                      "runAfter": {}
+                    }
+                  }
+                },
+                "Case_Warn": {
+                  "case": "Warn",
+                  "actions": {
+                    "Set_Severity_Warn": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "severityValue",
+                        "value": 100000001
+                      },
+                      "runAfter": {}
+                    }
+                  }
+                },
+                "Case_Error": {
+                  "case": "Error",
+                  "actions": {
+                    "Set_Severity_Error": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "severityValue",
+                        "value": 100000002
+                      },
+                      "runAfter": {}
+                    }
+                  }
+                }
+              },
+              "default": {
+                "actions": {}
+              },
+              "runAfter": {
+                "Initialize_severityValue": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Condition_HasPayload": {
+              "type": "If",
+              "expression": {
+                "and": [
+                  {
+                    "not": {
+                      "equals": [
+                        "@triggerBody()?['payloadJson']",
+                        null
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "equals": [
+                        "@triggerBody()?['payloadJson']",
+                        ""
+                      ]
+                    }
+                  }
+                ]
+              },
+              "actions": {
+                "Compose_ParsedPayload": {
+                  "type": "Compose",
+                  "inputs": "@json(triggerBody()?['payloadJson'])",
+                  "runAfter": {}
+                },
+                "Compose_RedactedPayload": {
+                  "type": "Compose",
+                  "inputs": "@removeProperty(removeProperty(removeProperty(removeProperty(removeProperty(removeProperty(removeProperty(outputs('Compose_ParsedPayload'), 'notes'), 'narrative'), 'description'), 'message'), 'freeText'), 'free_text'), 'freetext')",
+                  "runAfter": {
+                    "Compose_ParsedPayload": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Set_payloadOut": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "payloadOut",
+                    "value": "@{string(outputs('Compose_RedactedPayload'))}"
+                  },
+                  "runAfter": {
+                    "Compose_RedactedPayload": [
+                      "Succeeded"
+                    ]
+                  }
+                }
+              },
+              "else": {
+                "actions": {}
+              },
+              "runAfter": {
+                "Initialize_payloadOut": [
+                  "Succeeded"
+                ],
+                "Switch_Category": [
+                  "Succeeded"
+                ],
+                "Switch_Severity": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Create_TelemetryEvent": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "cch_telemetryevents",
+                  "item/cch_name": "@{first(split(triggerBody()?['eventName'], '.'))}",
+                  "item/cch_eventname": "@triggerBody()?['eventName']",
+                  "item/cch_category": "@variables('categoryValue')",
+                  "item/cch_severity": "@variables('severityValue')",
+                  "item/cch_correlationid": "@triggerBody()?['correlationId']",
+                  "item/cch_timestamp": "@utcNow()",
+                  "item/cch_payloadjson": "@variables('payloadOut')"
+                }
+              },
+              "runAfter": {
+                "Condition_HasPayload": [
+                  "Succeeded"
+                ]
+              }
+            }
+          },
+          "runAfter": {}
+        }
+      },
+      "outputs": {}
+    }
+  }
+}

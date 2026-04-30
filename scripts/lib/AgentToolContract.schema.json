@@ -1,0 +1,152 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://contoso-continuum-health/schemas/AgentToolContract.schema.json",
+  "title": "AgentToolContract",
+  "description": "Standard envelope shape for all Copilot Studio tool flow inputs and outputs. Locked per Topic 8C. Used by cch_AgentToolWrapper and every tool flow under solutions/ContinuumHealthDemo/src/Workflows/. Validated by the Tier-1 schema-drift job (Phase 4+).",
+  "definitions": {
+    "ErrorCode": {
+      "type": "string",
+      "description": "10-code error enum for tool flow failures.",
+      "enum": [
+        "validation_failed",
+        "not_found",
+        "forbidden",
+        "dependency_failed",
+        "rate_limited",
+        "timeout",
+        "internal_error",
+        "data_conflict",
+        "consent_required",
+        "feature_disabled"
+      ]
+    },
+    "Citation": {
+      "type": "object",
+      "description": "A source citation returned by a knowledge-grounded tool flow.",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Human-readable citation title (document name, article heading, etc.)."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Permalink to the source document or SharePoint file."
+        },
+        "excerpt": {
+          "type": "string",
+          "description": "Short verbatim excerpt that supports the claim (max 500 chars)."
+        }
+      },
+      "required": ["title"],
+      "additionalProperties": false
+    },
+    "ToolInput": {
+      "type": "object",
+      "description": "Minimal required input fields shared by all tool flows.",
+      "properties": {
+        "correlationId": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Correlation ID propagated from the parent agent conversation. Used by cch_AgentToolWrapper for telemetry."
+        }
+      },
+      "required": ["correlationId"]
+    },
+    "ToolOutput": {
+      "type": "object",
+      "description": "Standard response envelope returned by every tool flow. cch_AgentToolWrapper validates that child flows conform to this shape.",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "True if the tool call completed successfully; false otherwise."
+        },
+        "data": {
+          "description": "Tool-specific result payload. Shape varies per tool flow; see individual flow definitions.",
+          "nullable": true
+        },
+        "displayMessage": {
+          "type": "string",
+          "description": "Human-readable summary suitable for the agent to surface to the user. Must be non-empty when success=true. Required when success=false."
+        },
+        "citations": {
+          "type": "array",
+          "description": "Optional list of source citations supporting the response.",
+          "items": {
+            "$ref": "#/definitions/Citation"
+          },
+          "default": []
+        },
+        "correlationId": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Echo of the input correlationId, enabling the agent to correlate logs."
+        },
+        "errorCode": {
+          "$ref": "#/definitions/ErrorCode",
+          "description": "Required when success=false. Omitted when success=true."
+        }
+      },
+      "required": ["success", "correlationId"],
+      "if": {
+        "properties": { "success": { "const": false } }
+      },
+      "then": {
+        "required": ["success", "correlationId", "errorCode", "displayMessage"]
+      },
+      "additionalProperties": false
+    },
+    "LogStartPayload": {
+      "type": "object",
+      "description": "Payload passed to cch_AgentToolWrapper operation=LogStart at the start of every tool flow.",
+      "properties": {
+        "operation": { "const": "LogStart" },
+        "toolName": {
+          "type": "string",
+          "description": "Logical name of the tool flow (e.g. RequestReplacement, FileComplaint)."
+        },
+        "correlationId": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "argsJson": {
+          "type": "string",
+          "description": "JSON-serialised (pre-redacted) input arguments. Redaction applied by cch_LogTelemetry."
+        }
+      },
+      "required": ["operation", "toolName", "correlationId"]
+    },
+    "LogFinishPayload": {
+      "type": "object",
+      "description": "Payload passed to cch_AgentToolWrapper operation=LogFinish at the end of every tool flow.",
+      "properties": {
+        "operation": { "const": "LogFinish" },
+        "toolName": {
+          "type": "string",
+          "description": "Logical name of the tool flow."
+        },
+        "correlationId": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "success": {
+          "type": "boolean",
+          "description": "Whether the tool flow completed successfully."
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Elapsed time in milliseconds from LogStart to LogFinish."
+        },
+        "errorCode": {
+          "$ref": "#/definitions/ErrorCode",
+          "description": "Present only when success=false."
+        }
+      },
+      "required": ["operation", "toolName", "correlationId", "success", "durationMs"]
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/definitions/ToolOutput" }
+  ]
+}

@@ -1,0 +1,491 @@
+{
+  "name": "cch_IssueDirectLineToken",
+  "type": "Microsoft.ProcessSimple/operations/components",
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cch_DataverseDefault"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_logicflows": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cch_FlowManagement"
+        },
+        "api": {
+          "name": "shared_logicflows"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "a1b2c3d4-0004-4001-8001-000000000004"
+          },
+          "type": "Request",
+          "kind": "Http",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agentId": {
+                  "title": "agentId",
+                  "type": "string",
+                  "x-ms-visibility": "important",
+                  "description": "Copilot Studio agent GUID. Must match one of cch_IdAgentPatientSupport, cch_IdAgentQualityTriage, or cch_IdAgentEnablement env var values."
+                },
+                "personaContext": {
+                  "title": "personaContext",
+                  "type": "object",
+                  "x-ms-visibility": "important",
+                  "description": "Persona context passed to Direct Line as conversation properties.",
+                  "properties": {
+                    "personaId": { "type": "string" },
+                    "personaRole": { "type": "string" },
+                    "primaryAccountId": { "type": "string" },
+                    "primaryPatientId": { "type": "string" },
+                    "surface": { "type": "string" },
+                    "correlationId": { "type": "string" }
+                  }
+                }
+              },
+              "required": [
+                "agentId"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Initialize_secretRefVar": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "secretRefVar",
+                "type": "string",
+                "value": ""
+              }
+            ]
+          },
+          "runAfter": {}
+        },
+        "Initialize_agentMatched": {
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "agentMatched",
+                "type": "boolean",
+                "value": false
+              }
+            ]
+          },
+          "runAfter": {}
+        },
+        "Get_EnvVar_IdAgentPatientSupport": {
+          "type": "ApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "GetEnvironmentVariableValue",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "environmentVariableDefinitionLogicalName": "cch_IdAgentPatientSupport"
+            }
+          },
+          "runAfter": {
+            "Initialize_secretRefVar": [
+              "Succeeded"
+            ],
+            "Initialize_agentMatched": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Get_EnvVar_IdAgentQualityTriage": {
+          "type": "ApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "GetEnvironmentVariableValue",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "environmentVariableDefinitionLogicalName": "cch_IdAgentQualityTriage"
+            }
+          },
+          "runAfter": {
+            "Initialize_secretRefVar": [
+              "Succeeded"
+            ],
+            "Initialize_agentMatched": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Get_EnvVar_IdAgentEnablement": {
+          "type": "ApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "GetEnvironmentVariableValue",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "environmentVariableDefinitionLogicalName": "cch_IdAgentEnablement"
+            }
+          },
+          "runAfter": {
+            "Initialize_secretRefVar": [
+              "Succeeded"
+            ],
+            "Initialize_agentMatched": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Condition_IsPatientSupport": {
+          "type": "If",
+          "expression": {
+            "and": [
+              {
+                "equals": [
+                  "@triggerBody()?['agentId']",
+                  "@body('Get_EnvVar_IdAgentPatientSupport')?['value']"
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "Get_EnvVar_SecretPatientSupport": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "GetEnvironmentVariableValue",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "environmentVariableDefinitionLogicalName": "cch_SecretDirectLinePatientSupport"
+                }
+              },
+              "runAfter": {}
+            },
+            "Set_SecretRef_PatientSupport": {
+              "type": "SetVariable",
+              "inputs": {
+                "name": "secretRefVar",
+                "value": "@body('Get_EnvVar_SecretPatientSupport')?['value']"
+              },
+              "runAfter": {
+                "Get_EnvVar_SecretPatientSupport": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Set_AgentMatched_PS": {
+              "type": "SetVariable",
+              "inputs": {
+                "name": "agentMatched",
+                "value": true
+              },
+              "runAfter": {
+                "Set_SecretRef_PatientSupport": [
+                  "Succeeded"
+                ]
+              }
+            }
+          },
+          "else": {
+            "actions": {
+              "Condition_IsQualityTriage": {
+                "type": "If",
+                "expression": {
+                  "and": [
+                    {
+                      "equals": [
+                        "@triggerBody()?['agentId']",
+                        "@body('Get_EnvVar_IdAgentQualityTriage')?['value']"
+                      ]
+                    }
+                  ]
+                },
+                "actions": {
+                  "Get_EnvVar_SecretQualityTriage": {
+                    "type": "ApiConnection",
+                    "inputs": {
+                      "host": {
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationId": "GetEnvironmentVariableValue",
+                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                      },
+                      "parameters": {
+                        "environmentVariableDefinitionLogicalName": "cch_SecretDirectLineQualityTriage"
+                      }
+                    },
+                    "runAfter": {}
+                  },
+                  "Set_SecretRef_QualityTriage": {
+                    "type": "SetVariable",
+                    "inputs": {
+                      "name": "secretRefVar",
+                      "value": "@body('Get_EnvVar_SecretQualityTriage')?['value']"
+                    },
+                    "runAfter": {
+                      "Get_EnvVar_SecretQualityTriage": [
+                        "Succeeded"
+                      ]
+                    }
+                  },
+                  "Set_AgentMatched_QT": {
+                    "type": "SetVariable",
+                    "inputs": {
+                      "name": "agentMatched",
+                      "value": true
+                    },
+                    "runAfter": {
+                      "Set_SecretRef_QualityTriage": [
+                        "Succeeded"
+                      ]
+                    }
+                  }
+                },
+                "else": {
+                  "actions": {
+                    "Condition_IsEnablement": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "equals": [
+                              "@triggerBody()?['agentId']",
+                              "@body('Get_EnvVar_IdAgentEnablement')?['value']"
+                            ]
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "Get_EnvVar_SecretEnablement": {
+                          "type": "ApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connectionName": "shared_commondataserviceforapps",
+                              "operationId": "GetEnvironmentVariableValue",
+                              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                            },
+                            "parameters": {
+                              "environmentVariableDefinitionLogicalName": "cch_SecretDirectLineEnablement"
+                            }
+                          },
+                          "runAfter": {}
+                        },
+                        "Set_SecretRef_Enablement": {
+                          "type": "SetVariable",
+                          "inputs": {
+                            "name": "secretRefVar",
+                            "value": "@body('Get_EnvVar_SecretEnablement')?['value']"
+                          },
+                          "runAfter": {
+                            "Get_EnvVar_SecretEnablement": [
+                              "Succeeded"
+                            ]
+                          }
+                        },
+                        "Set_AgentMatched_EN": {
+                          "type": "SetVariable",
+                          "inputs": {
+                            "name": "agentMatched",
+                            "value": true
+                          },
+                          "runAfter": {
+                            "Set_SecretRef_Enablement": [
+                              "Succeeded"
+                            ]
+                          }
+                        }
+                      },
+                      "else": {
+                        "actions": {}
+                      },
+                      "runAfter": {}
+                    }
+                  }
+                },
+                "runAfter": {}
+              }
+            }
+          },
+          "runAfter": {
+            "Get_EnvVar_IdAgentPatientSupport": [
+              "Succeeded"
+            ],
+            "Get_EnvVar_IdAgentQualityTriage": [
+              "Succeeded"
+            ],
+            "Get_EnvVar_IdAgentEnablement": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Condition_AgentMatched": {
+          "type": "If",
+          "expression": {
+            "and": [
+              {
+                "equals": [
+                  "@variables('agentMatched')",
+                  false
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "Response_AgentNotFound": {
+              "type": "Response",
+              "inputs": {
+                "statusCode": 404,
+                "headers": {
+                  "Content-Type": "application/json"
+                },
+                "body": {
+                  "success": false,
+                  "errorCode": "not_found",
+                  "displayMessage": "The provided agentId does not match any registered Copilot Studio agent.",
+                  "correlationId": "@triggerBody()?['personaContext']?['correlationId']"
+                }
+              },
+              "runAfter": {}
+            },
+            "Terminate_AgentNotFound": {
+              "type": "Terminate",
+              "inputs": {
+                "runStatus": "Failed",
+                "runError": {
+                  "code": "not_found",
+                  "message": "@{concat('cch_IssueDirectLineToken: agentId not matched. Got: ', triggerBody()?['agentId'])}"
+                }
+              },
+              "runAfter": {
+                "Response_AgentNotFound": [
+                  "Succeeded"
+                ]
+              }
+            }
+          },
+          "else": {
+            "actions": {}
+          },
+          "runAfter": {
+            "Condition_IsPatientSupport": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Call_cch_ResolveSecret": {
+          "type": "ApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_logicflows",
+              "operationId": "InvokeChildFlow",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_logicflows"
+            },
+            "parameters": {
+              "workflowName": "cch_ResolveSecret-b1e2c3d4-e5f6-4890-abcd-ef1234560001",
+              "body": {
+                "secretRef": "@variables('secretRefVar')"
+              }
+            }
+          },
+          "runAfter": {
+            "Condition_AgentMatched": [
+              "Succeeded"
+            ]
+          }
+        },
+        "HTTP_GenerateDirectLineToken": {
+          "type": "Http",
+          "inputs": {
+            "method": "POST",
+            "uri": "https://directline.botframework.com/v3/directline/tokens/generate",
+            "headers": {
+              "Authorization": "@{concat('Bearer ', body('Call_cch_ResolveSecret')?['resolvedValue'])}"
+            },
+            "body": {
+              "user": {
+                "id": "@{triggerBody()?['agentId']}",
+                "name": "@{triggerBody()?['personaContext']?['personaId']}"
+              },
+              "trustedOrigins": []
+            }
+          },
+          "runAfter": {
+            "Call_cch_ResolveSecret": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Response_Success": {
+          "type": "Response",
+          "inputs": {
+            "statusCode": 200,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "token": "@{body('HTTP_GenerateDirectLineToken')?['token']}",
+              "conversationId": "@{body('HTTP_GenerateDirectLineToken')?['conversationId']}",
+              "expiresIn": "@{body('HTTP_GenerateDirectLineToken')?['expires_in']}"
+            }
+          },
+          "runAfter": {
+            "HTTP_GenerateDirectLineToken": [
+              "Succeeded"
+            ]
+          }
+        },
+        "Response_DirectLineError": {
+          "type": "Response",
+          "inputs": {
+            "statusCode": 502,
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "success": false,
+              "errorCode": "dependency_failed",
+              "displayMessage": "Direct Line token generation failed. Check agent configuration and Direct Line secret.",
+              "correlationId": "@triggerBody()?['personaContext']?['correlationId']"
+            }
+          },
+          "runAfter": {
+            "HTTP_GenerateDirectLineToken": [
+              "Failed",
+              "TimedOut"
+            ]
+          }
+        }
+      },
+      "outputs": {}
+    }
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "name": "cch_AgentToolWrapper",
+  "type": "Microsoft.ProcessSimple/operations/components",
+  "properties": {
+    "connectionReferences": {
+      "shared_logicflows": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "cch_FlowManagement"
+        },
+        "api": {
+          "name": "shared_logicflows"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "a1b2c3d4-0003-4001-8001-000000000003"
+          },
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "operation": {
+                  "title": "operation",
+                  "type": "string",
+                  "x-ms-visibility": "important",
+                  "description": "One of: LogStart, LogFinish"
+                },
+                "toolName": {
+                  "title": "toolName",
+                  "type": "string",
+                  "x-ms-visibility": "important",
+                  "description": "Logical name of the tool flow being wrapped (e.g. RequestReplacement, FileComplaint)."
+                },
+                "correlationId": {
+                  "title": "correlationId",
+                  "type": "string",
+                  "x-ms-visibility": "important",
+                  "description": "Correlation ID (max 64 chars) propagated from the parent flow."
+                },
+                "argsJson": {
+                  "title": "argsJson",
+                  "type": "string",
+                  "description": "LogStart only: JSON-serialised (redacted) tool arguments."
+                },
+                "success": {
+                  "title": "success",
+                  "type": "boolean",
+                  "description": "LogFinish only: whether the tool call succeeded."
+                },
+                "durationMs": {
+                  "title": "durationMs",
+                  "type": "integer",
+                  "description": "LogFinish only: elapsed time in milliseconds."
+                },
+                "errorCode": {
+                  "title": "errorCode",
+                  "type": "string",
+                  "description": "LogFinish only (optional): standard error code from the 10-code enum (e.g. validation_failed, not_found)."
+                }
+              },
+              "required": [
+                "operation",
+                "toolName",
+                "correlationId"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Switch_Operation": {
+          "type": "Switch",
+          "expression": "@triggerBody()?['operation']",
+          "cases": {
+            "Case_LogStart": {
+              "case": "LogStart",
+              "actions": {
+                "Call_LogTelemetry_Start": {
+                  "type": "ApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_logicflows",
+                      "operationId": "InvokeChildFlow",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_logicflows"
+                    },
+                    "parameters": {
+                      "workflowName": "cch_LogTelemetry-b1e2c3d4-e5f6-4890-abcd-ef1234560002",
+                      "body": {
+                        "category": "AgentEvent",
+                        "eventName": "@{concat('toolcall.', triggerBody()?['toolName'], '.started')}",
+                        "severity": "Info",
+                        "correlationId": "@triggerBody()?['correlationId']",
+                        "payloadJson": "@triggerBody()?['argsJson']"
+                      }
+                    }
+                  },
+                  "runAfter": {}
+                }
+              }
+            },
+            "Case_LogFinish": {
+              "case": "LogFinish",
+              "actions": {
+                "Condition_Succeeded": {
+                  "type": "If",
+                  "expression": {
+                    "and": [
+                      {
+                        "equals": [
+                          "@triggerBody()?['success']",
+                          true
+                        ]
+                      }
+                    ]
+                  },
+                  "actions": {
+                    "Call_LogTelemetry_Completed": {
+                      "type": "ApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connectionName": "shared_logicflows",
+                          "operationId": "InvokeChildFlow",
+                          "apiId": "/providers/Microsoft.PowerApps/apis/shared_logicflows"
+                        },
+                        "parameters": {
+                          "workflowName": "cch_LogTelemetry-b1e2c3d4-e5f6-4890-abcd-ef1234560002",
+                          "body": {
+                            "category": "AgentEvent",
+                            "eventName": "@{concat('toolcall.', triggerBody()?['toolName'], '.completed')}",
+                            "severity": "Info",
+                            "correlationId": "@triggerBody()?['correlationId']",
+                            "payloadJson": "@{string(createObject('durationMs', triggerBody()?['durationMs']))}"
+                          }
+                        }
+                      },
+                      "runAfter": {}
+                    }
+                  },
+                  "else": {
+                    "actions": {
+                      "Call_LogTelemetry_Failed": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connectionName": "shared_logicflows",
+                            "operationId": "InvokeChildFlow",
+                            "apiId": "/providers/Microsoft.PowerApps/apis/shared_logicflows"
+                          },
+                          "parameters": {
+                            "workflowName": "cch_LogTelemetry-b1e2c3d4-e5f6-4890-abcd-ef1234560002",
+                            "body": {
+                              "category": "AgentEvent",
+                              "eventName": "@{concat('toolcall.', triggerBody()?['toolName'], '.failed')}",
+                              "severity": "Warn",
+                              "correlationId": "@triggerBody()?['correlationId']",
+                              "payloadJson": "@{string(createObject('durationMs', triggerBody()?['durationMs'], 'errorCode', triggerBody()?['errorCode']))}"
+                            }
+                          }
+                        },
+                        "runAfter": {}
+                      }
+                    }
+                  },
+                  "runAfter": {}
+                }
+              }
+            }
+          },
+          "default": {
+            "actions": {
+              "Terminate_UnknownOperation": {
+                "type": "Terminate",
+                "inputs": {
+                  "runStatus": "Failed",
+                  "runError": {
+                    "code": "validation_failed",
+                    "message": "@{concat('cch_AgentToolWrapper: unknown operation. Expected LogStart or LogFinish. Got: ', triggerBody()?['operation'])}"
+                  }
+                },
+                "runAfter": {}
+              }
+            }
+          },
+          "runAfter": {}
+        }
+      },
+      "outputs": {}
+    }
+  }
+}

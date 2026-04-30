@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<connectionreference Name="cch_FlowManagement" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DisplayName>Continuum Health — Flow Management</DisplayName>
+  <ConnectionReferenceLogicalName>cch_FlowManagement</ConnectionReferenceLogicalName>
+  <ConnectorId>/providers/Microsoft.PowerApps/apis/shared_logicflows</ConnectorId>
+  <IsCustomizable>1</IsCustomizable>
+  <IsManaged>0</IsManaged>
+  <Descriptions>
+    <Description description="Flow Management connection reference used by cch_AgentToolWrapper and cch_IssueDirectLineToken to invoke cch_LogTelemetry and cch_ResolveSecret child flows." languagecode="1033" />
+  </Descriptions>
+</connectionreference>

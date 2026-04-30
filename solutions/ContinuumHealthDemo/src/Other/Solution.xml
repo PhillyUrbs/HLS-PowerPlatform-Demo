@@ -60,6 +60,20 @@
       <RootComponent type="9" schemaName="cch_telemetryseverity" behavior="0" />
       <!-- Environment Variable Definitions (type=380) -->
       <RootComponent type="380" schemaName="cch_DeploymentVersion" behavior="0" />
+      <RootComponent type="380" schemaName="cch_IdAgentPatientSupport" behavior="0" />
+      <RootComponent type="380" schemaName="cch_IdAgentQualityTriage" behavior="0" />
+      <RootComponent type="380" schemaName="cch_IdAgentEnablement" behavior="0" />
+      <RootComponent type="380" schemaName="cch_SecretDirectLinePatientSupport" behavior="0" />
+      <RootComponent type="380" schemaName="cch_SecretDirectLineQualityTriage" behavior="0" />
+      <RootComponent type="380" schemaName="cch_SecretDirectLineEnablement" behavior="0" />
+      <!-- Connection References (type=10) -->
+      <RootComponent type="10" schemaName="cch_DataverseDefault" behavior="0" />
+      <RootComponent type="10" schemaName="cch_FlowManagement" behavior="0" />
+      <!-- Cloud Flows / Workflows (type=29) -->
+      <RootComponent type="29" schemaName="cch_ResolveSecret" behavior="0" />
+      <RootComponent type="29" schemaName="cch_LogTelemetry" behavior="0" />
+      <RootComponent type="29" schemaName="cch_AgentToolWrapper" behavior="0" />
+      <RootComponent type="29" schemaName="cch_IssueDirectLineToken" behavior="0" />
       <!-- Security Roles (type=12) -->
       <RootComponent type="12" schemaName="PatientPortal" behavior="0" />
       <RootComponent type="12" schemaName="HCPPortal" behavior="0" />
