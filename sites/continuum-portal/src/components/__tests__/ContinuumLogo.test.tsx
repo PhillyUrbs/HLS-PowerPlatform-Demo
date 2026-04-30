@@ -25,8 +25,9 @@ describe('ContinuumLogo', () => {
   })
 
   it('accepts a custom label', async () => {
-    const { getByRole } = render(<ContinuumLogo label="My Company" />, { wrapper: Wrapper })
+    const { getByRole, getByTitle } = render(<ContinuumLogo label="My Company" />, { wrapper: Wrapper })
     // The SVG title element provides accessible name
     expect(getByRole('img', { hidden: true })).toBeInTheDocument()
+    expect(getByTitle('My Company')).toBeInTheDocument()
   })
 })

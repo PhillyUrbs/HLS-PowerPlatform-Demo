@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 })
 
 export interface ContinuumLogoProps {
-  /** Override the brand teal colour via CSS custom property. Defaults to #0E7C86. */
+  /** Override the brand teal color via CSS custom property. Defaults to #0E7C86. */
   brandColor?: string
   /** Height of the SVG mark in pixels. Defaults to 32. */
   size?: number
