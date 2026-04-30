@@ -6,6 +6,48 @@
 
 ---
 
+## 2026-04-30 — Patient Support agent skeleton: spec + system-prompt + avatar + export placeholder
+
+**Decided:** `agents/patient-support/` lands as a 4-file skeleton (`spec.md`, `system-prompt.md`, `avatar.svg`, `export/README.md`). No Copilot Studio export bundle is committed.
+
+**Why:** `pac copilot export` requires a live Power Platform environment with the agent already published in Copilot Studio + the Direct Line channel enabled — none of which are available in the Copilot coding agent sandbox. The export cannot be produced at PR time. The skeleton fulfills the spec / system-prompt / avatar deliverables that are environment-independent and pins the operator runbook for the post-publish export step.
+
+**Alternatives considered:**
+- Hand-author Copilot Studio topic YAML stubs → rejected; Copilot Studio topic YAML schema is not publicly documented and hand-authored stubs could mislead the operator on import.
+- Skip the `export/` folder entirely → rejected; the placeholder README documents the expected bundle layout + per-persona greeting filenames + publish runbook, which is more useful than silence.
+
+**Operator follow-up (post-publish):** `pac copilot export --name "Continuum Patient Support" --output agents/patient-support/export/` after Copilot Studio publish. Update `manifest.json` with the agent ID written to `cch_IdAgentPatientSupport`. Direct Line secret + agent ID are operator-time values, never committed.
+
+**Affects:** Phase 5 (Agent-Builder), V1 (Patient onboarding), V2 (HCP prescribing), V3 (FCS account 360). Establishes the per-agent file layout (`spec.md` + `system-prompt.md` + `avatar.svg` + `export/`) that Quality Triage and Continuum Enablement will follow.
+
+**References:** [agents/patient-support/spec.md](../agents/patient-support/spec.md); [agents/patient-support/system-prompt.md](../agents/patient-support/system-prompt.md); [agents/patient-support/export/README.md](../agents/patient-support/export/README.md); GitHub PR #24 (`1b1c58b`); GitHub issue #9.
+
+---
+
+## 2026-04-30 — Infrastructure flows PR #1: 3 cross-cutting decisions
+
+**Decided:** Three precedents established by Flows-Engineer PR #1 (4 infrastructure flows + 6 env var defs + 2 connection refs + AgentToolContract schema):
+
+1. **Child-flow invocation uses `shared_logicflows` + `runtimeSource: embedded`.** All calls from one solution-aware child flow to another (e.g. `cch_AgentToolWrapper` → `cch_LogTelemetry`) use the Flow Management connector wired through the `cch_FlowManagement` connection reference, with `runtimeSource: embedded` in the flow JSON. This is the PAC-unpacked representation of "Run a Child Flow" for in-solution child flows.
+
+2. **Workflow filenames use deterministic GUID prefix `b1e2c3d4-e5f6-4890-abcd-ef12345600NN`.** Hand-authored flows pick stable GUIDs (incrementing the last 3 hex digits) rather than random ones. Easier diffs, stable cherry-picks. The `operationMetadataId` inside each trigger should match the file GUID.
+
+3. **A role's PR may include compile-time dependencies of its primary artifacts even if those formally belong to another role.** Flows PR shipped 6 env var definitions (Dataverse-Engineer turf), 2 connection references (Lead turf), and `scripts/lib/AgentToolContract.schema.json` (Lead/Tester turf) because the flows can't compile or import without them. Hand-off rule: post-merge, the formal owner reviews future changes to those files.
+
+**Why:** Power Automate flows fail solution import without their connection refs and env var definitions present. Splitting them into a separate Dataverse-Engineer micro-PR would block Phase 4. PAC tooling does not validate GUID format beyond syntactic correctness, so deterministic prefixes are safe and provide better DX. The cross-role scope expansion is acceptable when artifacts are compile-time dependencies; documented here so future PRs follow the same precedent rather than the convention silently drifting.
+
+**Alternatives considered:**
+- HTTP trigger on child flows + HTTP call from parent (instead of `shared_logicflows`) → defeats the child-flow abstraction, exposes each flow with its own connection security, more surface area.
+- Random GUIDs (e.g. `uuidgen`) → stable per generation but harder to read in diffs; no benefit since these IDs are internal.
+- Sequential integers as filenames (no GUID) → `pac solution pack` requires GUID-suffixed workflow filenames; import errors otherwise.
+- Ship env vars in a separate Dataverse-Engineer PR first → blocking dependency, delays Phase 4 start; the env vars are referenced by logical name in the flow JSON so a separate PR provides no isolation benefit.
+
+**Affects:** Every subsequent Flows-Engineer PR. Future flows that invoke `cch_LogTelemetry` or `cch_ResolveSecret` use the `shared_logicflows` + `cch_FlowManagement` pattern. Subsequent flow files continue the `b1e2c3d4-e5f6-4890-abcd-ef1234560NNN` series. Cross-role compile-time-dependency precedent is now general (not flows-specific).
+
+**References:** [solutions/ContinuumHealthDemo/src/Workflows/](../solutions/ContinuumHealthDemo/src/Workflows/); [scripts/lib/AgentToolContract.schema.json](../scripts/lib/AgentToolContract.schema.json); GitHub PR #23 (`a6a5aaa`); GitHub issue #8.
+
+---
+
 ## 2026-04-30 — Phase 2 Power Pages scaffold: continuum-portal React + Vite + Fluent UI v9
 
 **Decided:** `sites/continuum-portal/` scaffolded as a React + Vite + TypeScript + Fluent UI v9 Power Pages Code Site. Two components land as the first entries in the shared component library: `<ContinuumLogo/>` (#18) and `<DemoModeBanner/>` (#19).
