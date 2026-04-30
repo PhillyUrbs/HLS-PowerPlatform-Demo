@@ -59,7 +59,7 @@ export function DemoModeBanner(): ReactElement | null {
           <strong>⚕ Demo mode — Contoso Continuum Health.</strong>{' '}
           All patient names, MRNs, device IDs, and clinical data are entirely synthetic
           (generated with Faker.js). This is not a Microsoft product or official reference.
-          Provided AS-IS under the MIT licence. Not validated for FDA/HIPAA/GxP use.
+          Provided AS-IS under the MIT License. Not validated for FDA/HIPAA/GxP use.
         </MessageBarBody>
         <MessageBarActions
           containerAction={
