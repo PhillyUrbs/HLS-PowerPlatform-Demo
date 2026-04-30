@@ -6,6 +6,36 @@
 
 ---
 
+## 2026-04-30 — Phase 3 CodeApp scaffold: 3 cross-cutting decisions + .gitignore inbox fix
+
+**Decided:** Three precedents established by CodeApp-Engineer PR #1 (`apps/field-companion/` scaffold) plus a latent .gitignore defect fix:
+
+1. **`create-code-app` Power Platform skill unavailable in Cloud agent sandbox; fallback to direct `npm create vite` + Fluent UI v9.** Same path PR #19 took for Pages. Power Platform integration layer (`@microsoft/power-apps` SDK, `power.config.json`, `pac code app push` wiring) is **deferred to a follow-up CodeApp-Engineer PR** that runs the skill against the live env, then merges the generated config into the existing scaffold.
+
+2. **`<ContinuumLogo/>` and `<DemoModeBanner/>` are file-copies between `sites/continuum-portal/` and `apps/field-companion/`, not a shared workspace package.** Each copy carries a `// Copied from sites/continuum-portal/...` header line as drift signal. Revisit when (a) a third surface is added (Teams embed / SharePoint embed / Storybook), OR (b) the first divergence is forced by an environment-specific need.
+
+3. **Persona starter set hardcoded to 6 entries** (Anonymous + 4 heroes from `data/names/people.md` — Maria Sullivan / Dr. Jacob Hancock / Nicole Wagner / Quincy Brooks — + Demo Operator). Topic 1's "full-population searchable" is deferred to a follow-up PR after Dataverse seed lands; the swap is a clean array-→-loader replacement, not a refactor. Tests assert against the 6 IDs; preserve those IDs across the swap for test stability.
+
+4. **`.gitignore` defect fix:** `.squad/decisions/inbox/` was incorrectly ignored since squad-init (`5b56a3aa`). Prior agents (PRs #23/#24) bypassed it with `git add -f` without flagging — a near miss. The inbox is the documented hand-off mechanism per `decisions.md` header; it MUST be committable. Removed from `.gitignore` and added an inline comment to prevent re-addition. Transient files should target `.squad/.scratch/` instead.
+
+**Why:**
+- Skill unavailability: blocking on missing skills delays everyone downstream for no value; hand-scaffold lets parallel work proceed.
+- Component duplication: a workspace package adds build-graph complexity for 2 files. File-copies + drift-detection header + revisit-trigger is the lowest-cost interim.
+- Persona starter set: Topic 1 lock requires the switcher on every screen; blocking on full-population blocks `<AppShell/>`, persona store, a11y tests, Demo Health stub, and every downstream component for everyone.
+- Gitignore: the inbox is *intentionally* committable. Documenting that loudly in `.gitignore` (with comment) prevents future tooling-author from re-adding the pattern.
+
+**Alternatives considered:**
+- Block PR until `create-code-app` skill is available → blocks CodeApp-Engineer's first PR + delays Demo Health, persona store, and component shell for at least a phase.
+- npm/pnpm workspaces with `packages/ui-shared` for shared components → premium overhead for 2 components; force-rescaffold both apps simultaneously.
+- Hardcode all 50 patient + 20 HCP + 10 FCS + 5 QA names in the persona store → still hardcoded; full-population belongs in Dataverse so the demo can show real Web API lookups, not array filtering.
+- Keep `.squad/decisions/inbox/` gitignored + document the `-f` workaround → contradicts the inbox-pattern intent + ensures every future agent author also has to discover this footgun.
+
+**Affects:** Phase 3 (CodeApp scaffold), Phase 1 tail-end (seed data + name population), Phase 2/3 component-sharing strategy (revisit trigger documented), and infrastructure (`.gitignore` correction). The follow-up CodeApp-Engineer PR for `create-code-app` integration becomes a tracked Phase 3 task.
+
+**References:** [apps/field-companion/](../apps/field-companion/); [.gitignore](../.gitignore) lines 215–221 (inline comment); GitHub PR #22 (`b0873f8`) + sub-PR #25 (`f24e5b7`); GitHub issue #7. Tag `v0.3.0` at the merge commit.
+
+---
+
 ## 2026-04-30 — Patient Support agent skeleton: spec + system-prompt + avatar + export placeholder
 
 **Decided:** `agents/patient-support/` lands as a 4-file skeleton (`spec.md`, `system-prompt.md`, `avatar.svg`, `export/README.md`). No Copilot Studio export bundle is committed.
