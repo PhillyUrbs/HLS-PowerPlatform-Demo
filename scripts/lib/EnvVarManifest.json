@@ -410,6 +410,20 @@
             ]
         },
         {
+            "name": "cch_DeploymentVersion",
+            "category": "Tunable",
+            "type": "string",
+            "required": false,
+            "default": "0.0.0",
+            "source": "stamped-by-migrations",
+            "description": "Current deployed solution version (semver). Stamped by numbered migrations in solutions/ContinuumHealthDemo/migrations/ as they run. Used by upgrade.ps1 to detect which migrations have already executed (handoff section 3.15 lifecycle / migration framework).",
+            "readBy": [
+                "upgrade.ps1 delta-detection",
+                "migration scripts (read current; write new)",
+                "doctor.ps1 [EnvVars] section (Phase 1+)"
+            ]
+        },
+        {
             "name": "cch_FeatureV1PatientPortal",
             "category": "Feature",
             "type": "boolean",
