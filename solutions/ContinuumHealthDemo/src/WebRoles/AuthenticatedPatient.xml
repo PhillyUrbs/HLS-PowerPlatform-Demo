@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<webrole Name="AuthenticatedPatient" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Description>Power Pages web role for authenticated patients. Self + record-owner scope on Patient; relationship-scoped reads on Prescription, Shipment, Complaint, and Device records tied to the authenticated Patient.</Description>
+  <IsAuthenticatedUsersRole>1</IsAuthenticatedUsersRole>
+  <IsAnonymousUsersRole>0</IsAnonymousUsersRole>
+</webrole>

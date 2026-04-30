@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name LocalizedName="Sample Inventory" OwnershipType="UserOwned" TableType="Standard">cch_sampleinventory</Name>
+  <EntityInfo>
+    <entity Name="cch_sampleinventory">
+      <LocalizedNames>
+        <LocalizedName description="Sample Inventory" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="Field rep sample inventory on hand for Contoso Continuum Health." languagecode="1033" />
+      </Descriptions>
+      <IsAuditEnabled>1</IsAuditEnabled>
+      <IsValidForQueue>0</IsValidForQueue>
+      <IsConnectionsEnabled>0</IsConnectionsEnabled>
+      <OwnershipType>UserOwned</OwnershipType>
+      <PrimaryNameAttribute>cch_name</PrimaryNameAttribute>
+      <attributes>
+        <attribute PhysicalName="cch_sampleinventoryid">
+          <Type>primarykey</Type>
+          <Name>cch_sampleinventoryid</Name>
+          <LogicalName>cch_sampleinventoryid</LogicalName>
+          <RequiredLevel>SystemRequired</RequiredLevel>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsCustomizable>0</IsCustomizable>
+          <IsCustomField>0</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Sample Inventory" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_name">
+          <Type>nvarchar</Type>
+          <Name>cch_name</Name>
+          <LogicalName>cch_name</LogicalName>
+          <RequiredLevel>ApplicationRequired</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>200</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="SKU / Item" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_repid">
+          <Type>lookup</Type>
+          <Name>cch_repid</Name>
+          <LogicalName>cch_repid</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <Targets>
+            <Target>systemuser</Target>
+          </Targets>
+          <LocalizedNames>
+            <LocalizedName description="Field Rep" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_sku">
+          <Type>nvarchar</Type>
+          <Name>cch_sku</Name>
+          <LogicalName>cch_sku</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="SKU" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_quantity">
+          <Type>integer</Type>
+          <Name>cch_quantity</Name>
+          <LogicalName>cch_quantity</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Quantity on Hand" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_location">
+          <Type>nvarchar</Type>
+          <Name>cch_location</Name>
+          <LogicalName>cch_location</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>200</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Storage Location" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_testrun">
+          <Type>bit</Type>
+          <Name>cch_testrun</Name>
+          <LogicalName>cch_testrun</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <DefaultValue>0</DefaultValue>
+          <LocalizedNames>
+            <LocalizedName description="Test Run" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+      </attributes>
+    </entity>
+  </EntityInfo>
+</Entity>

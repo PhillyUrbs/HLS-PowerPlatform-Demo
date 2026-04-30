@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="cch_agentclassification" localizedName="Agent Classification" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IsCustomizable>1</IsCustomizable>
+  <IsManaged>0</IsManaged>
+  <ExternalTypeName />
+  <options>
+    <option value="100000000">
+      <labels>
+        <label description="Adverse" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="100000001">
+      <labels>
+        <label description="Malfunction" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="100000002">
+      <labels>
+        <label description="DeviceFailure" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="100000003">
+      <labels>
+        <label description="UserError" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="100000004">
+      <labels>
+        <label description="Other" languagecode="1033" />
+      </labels>
+    </option>
+  </options>
+</optionset>

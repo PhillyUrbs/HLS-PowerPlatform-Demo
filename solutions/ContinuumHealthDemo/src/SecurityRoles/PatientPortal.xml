@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Role Name="PatientPortal" Id="a1b2c3d4-0001-0001-0001-000000000001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <RolePrivileges>
+    <!-- Patient: CRUD at Basic (user-owned) -->
+    <RolePrivilege name="prvCreatecch_patient" level="Basic" />
+    <RolePrivilege name="prvReadcch_patient" level="Basic" />
+    <RolePrivilege name="prvWritecch_patient" level="Basic" />
+    <RolePrivilege name="prvDeletecch_patient" level="Basic" />
+    <RolePrivilege name="prvAppendcch_patient" level="Basic" />
+    <RolePrivilege name="prvAppendTocch_patient" level="Basic" />
+    <!-- Prescription: CRUD at Basic -->
+    <RolePrivilege name="prvCreatecch_prescription" level="Basic" />
+    <RolePrivilege name="prvReadcch_prescription" level="Basic" />
+    <RolePrivilege name="prvWritecch_prescription" level="Basic" />
+    <RolePrivilege name="prvDeletecch_prescription" level="Basic" />
+    <RolePrivilege name="prvAppendcch_prescription" level="Basic" />
+    <RolePrivilege name="prvAppendTocch_prescription" level="Basic" />
+    <!-- Shipment: CRUD at Basic -->
+    <RolePrivilege name="prvCreatecch_shipment" level="Basic" />
+    <RolePrivilege name="prvReadcch_shipment" level="Basic" />
+    <RolePrivilege name="prvWritecch_shipment" level="Basic" />
+    <RolePrivilege name="prvDeletecch_shipment" level="Basic" />
+    <RolePrivilege name="prvAppendcch_shipment" level="Basic" />
+    <RolePrivilege name="prvAppendTocch_shipment" level="Basic" />
+    <!-- ServiceCase: CRUD at Basic -->
+    <RolePrivilege name="prvCreatecch_servicecase" level="Basic" />
+    <RolePrivilege name="prvReadcch_servicecase" level="Basic" />
+    <RolePrivilege name="prvWritecch_servicecase" level="Basic" />
+    <RolePrivilege name="prvDeletecch_servicecase" level="Basic" />
+    <RolePrivilege name="prvAppendcch_servicecase" level="Basic" />
+    <RolePrivilege name="prvAppendTocch_servicecase" level="Basic" />
+    <!-- Device: Read-only -->
+    <RolePrivilege name="prvReadcch_device" level="Basic" />
+    <!-- HCP: Read-only -->
+    <RolePrivilege name="prvReadcch_hcp" level="Basic" />
+    <!-- Account: Read-only -->
+    <RolePrivilege name="prvReadcch_account" level="Basic" />
+  </RolePrivileges>
+</Role>

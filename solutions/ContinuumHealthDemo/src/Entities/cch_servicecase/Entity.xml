@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name LocalizedName="Service Case" OwnershipType="UserOwned" TableType="Standard">cch_servicecase</Name>
+  <EntityInfo>
+    <entity Name="cch_servicecase">
+      <LocalizedNames>
+        <LocalizedName description="Service Case" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="Device service or replacement case for Contoso Continuum Health patients." languagecode="1033" />
+      </Descriptions>
+      <IsAuditEnabled>1</IsAuditEnabled>
+      <IsValidForQueue>0</IsValidForQueue>
+      <IsConnectionsEnabled>0</IsConnectionsEnabled>
+      <OwnershipType>UserOwned</OwnershipType>
+      <PrimaryNameAttribute>cch_name</PrimaryNameAttribute>
+      <attributes>
+        <attribute PhysicalName="cch_servicecaseid">
+          <Type>primarykey</Type>
+          <Name>cch_servicecaseid</Name>
+          <LogicalName>cch_servicecaseid</LogicalName>
+          <RequiredLevel>SystemRequired</RequiredLevel>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsCustomizable>0</IsCustomizable>
+          <IsCustomField>0</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Service Case" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_name">
+          <Type>nvarchar</Type>
+          <Name>cch_name</Name>
+          <LogicalName>cch_name</LogicalName>
+          <RequiredLevel>ApplicationRequired</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>200</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Case Number" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_patientid">
+          <Type>lookup</Type>
+          <Name>cch_patientid</Name>
+          <LogicalName>cch_patientid</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <Targets>
+            <Target>cch_patient</Target>
+          </Targets>
+          <LocalizedNames>
+            <LocalizedName description="Patient" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_originaldeviceid">
+          <Type>lookup</Type>
+          <Name>cch_originaldeviceid</Name>
+          <LogicalName>cch_originaldeviceid</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <Targets>
+            <Target>cch_device</Target>
+          </Targets>
+          <LocalizedNames>
+            <LocalizedName description="Original Device" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_replacementdeviceid">
+          <Type>lookup</Type>
+          <Name>cch_replacementdeviceid</Name>
+          <LogicalName>cch_replacementdeviceid</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <Targets>
+            <Target>cch_device</Target>
+          </Targets>
+          <LocalizedNames>
+            <LocalizedName description="Replacement Device" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_reason">
+          <Type>memo</Type>
+          <Name>cch_reason</Name>
+          <LogicalName>cch_reason</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Reason for Case" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_status">
+          <Type>picklist</Type>
+          <Name>cch_status</Name>
+          <LogicalName>cch_status</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <optionset Name="cch_servicecasestatus">
+            <OptionSetType>picklist</OptionSetType>
+            <IsGlobal>0</IsGlobal>
+            <IsCustomizable>1</IsCustomizable>
+            <IsManaged>0</IsManaged>
+            <ExternalTypeName />
+            <options>
+              <option value="100000000">
+                <labels>
+                  <label description="Open" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000001">
+                <labels>
+                  <label description="InProgress" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000002">
+                <labels>
+                  <label description="Resolved" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000003">
+                <labels>
+                  <label description="Cancelled" languagecode="1033" />
+                </labels>
+              </option>
+            </options>
+          </optionset>
+          <LocalizedNames>
+            <LocalizedName description="Status" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_complaintid">
+          <Type>lookup</Type>
+          <Name>cch_complaintid</Name>
+          <LogicalName>cch_complaintid</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <Targets>
+            <Target>cch_complaint</Target>
+          </Targets>
+          <LocalizedNames>
+            <LocalizedName description="Related Complaint" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_testrun">
+          <Type>bit</Type>
+          <Name>cch_testrun</Name>
+          <LogicalName>cch_testrun</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <DefaultValue>0</DefaultValue>
+          <LocalizedNames>
+            <LocalizedName description="Test Run" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_createdbypersona">
+          <Type>nvarchar</Type>
+          <Name>cch_createdbypersona</Name>
+          <LogicalName>cch_createdbypersona</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Created By Persona" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_modifiedbypersona">
+          <Type>nvarchar</Type>
+          <Name>cch_modifiedbypersona</Name>
+          <LogicalName>cch_modifiedbypersona</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Modified By Persona" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+      </attributes>
+    </entity>
+  </EntityInfo>
+</Entity>

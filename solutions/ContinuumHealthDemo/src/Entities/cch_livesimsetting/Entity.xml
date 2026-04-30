@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name LocalizedName="Live Sim Setting" OwnershipType="OrgOwned" TableType="Standard">cch_livesimsetting</Name>
+  <EntityInfo>
+    <entity Name="cch_livesimsetting">
+      <LocalizedNames>
+        <LocalizedName description="Live Sim Setting" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="Singleton live simulation settings controlling shipment lifecycle cadence for demos." languagecode="1033" />
+      </Descriptions>
+      <IsAuditEnabled>1</IsAuditEnabled>
+      <IsValidForQueue>0</IsValidForQueue>
+      <IsConnectionsEnabled>0</IsConnectionsEnabled>
+      <OwnershipType>OrgOwned</OwnershipType>
+      <PrimaryNameAttribute>cch_name</PrimaryNameAttribute>
+      <attributes>
+        <attribute PhysicalName="cch_livesimsettingid">
+          <Type>primarykey</Type>
+          <Name>cch_livesimsettingid</Name>
+          <LogicalName>cch_livesimsettingid</LogicalName>
+          <RequiredLevel>SystemRequired</RequiredLevel>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsCustomizable>0</IsCustomizable>
+          <IsCustomField>0</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Live Sim Setting" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_name">
+          <Type>nvarchar</Type>
+          <Name>cch_name</Name>
+          <LogicalName>cch_name</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>200</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Setting Name" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_isenabled">
+          <Type>bit</Type>
+          <Name>cch_isenabled</Name>
+          <LogicalName>cch_isenabled</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <DefaultValue>0</DefaultValue>
+          <LocalizedNames>
+            <LocalizedName description="Live Sim Enabled" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_cadenceminutes">
+          <Type>integer</Type>
+          <Name>cch_cadenceminutes</Name>
+          <LogicalName>cch_cadenceminutes</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Cadence (minutes)" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_windowstart">
+          <Type>nvarchar</Type>
+          <Name>cch_windowstart</Name>
+          <LogicalName>cch_windowstart</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>10</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Window Start (HH:mm ET)" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_windowend">
+          <Type>nvarchar</Type>
+          <Name>cch_windowend</Name>
+          <LogicalName>cch_windowend</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>10</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Window End (HH:mm ET)" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+      </attributes>
+    </entity>
+  </EntityInfo>
+</Entity>

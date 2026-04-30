@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<webrole Name="AuthenticatedHCP" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Description>Power Pages web role for authenticated Health Care Providers. Relationship-scoped access to Patients where PrimaryHCP equals the authenticated user; create on Prescription; read on Shipment, Complaint, and Device; no write on Patient core profile fields.</Description>
+  <IsAuthenticatedUsersRole>1</IsAuthenticatedUsersRole>
+  <IsAnonymousUsersRole>0</IsAnonymousUsersRole>
+</webrole>

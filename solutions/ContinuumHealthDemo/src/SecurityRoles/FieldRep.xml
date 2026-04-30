@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Role Name="FieldRep" Id="a1b2c3d4-0003-0003-0003-000000000003" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <RolePrivileges>
+    <!-- Account: Read + Update at Basic -->
+    <RolePrivilege name="prvReadcch_account" level="Basic" />
+    <RolePrivilege name="prvWritecch_account" level="Basic" />
+    <RolePrivilege name="prvAppendcch_account" level="Basic" />
+    <RolePrivilege name="prvAppendTocch_account" level="Basic" />
+    <!-- HCP: Read + Update at Basic -->
+    <RolePrivilege name="prvReadcch_hcp" level="Basic" />
+    <RolePrivilege name="prvWritecch_hcp" level="Basic" />
+    <RolePrivilege name="prvAppendcch_hcp" level="Basic" />
+    <RolePrivilege name="prvAppendTocch_hcp" level="Basic" />
+    <!-- Patient: Read + Update at Basic -->
+    <RolePrivilege name="prvReadcch_patient" level="Basic" />
+    <RolePrivilege name="prvWritecch_patient" level="Basic" />
+    <RolePrivilege name="prvAppendcch_patient" level="Basic" />
+    <RolePrivilege name="prvAppendTocch_patient" level="Basic" />
+    <!-- SampleOrder: CRUD at Basic -->
+    <RolePrivilege name="prvCreatecch_sampleorder" level="Basic" />
+    <RolePrivilege name="prvReadcch_sampleorder" level="Basic" />
+    <RolePrivilege name="prvWritecch_sampleorder" level="Basic" />
+    <RolePrivilege name="prvDeletecch_sampleorder" level="Basic" />
+    <RolePrivilege name="prvAppendcch_sampleorder" level="Basic" />
+    <RolePrivilege name="prvAppendTocch_sampleorder" level="Basic" />
+    <!-- SampleInventory: Read-only -->
+    <RolePrivilege name="prvReadcch_sampleinventory" level="Basic" />
+    <!-- Complaint: Create + Read at Basic -->
+    <RolePrivilege name="prvCreatecch_complaint" level="Basic" />
+    <RolePrivilege name="prvReadcch_complaint" level="Basic" />
+    <RolePrivilege name="prvAppendcch_complaint" level="Basic" />
+    <RolePrivilege name="prvAppendTocch_complaint" level="Basic" />
+    <!-- ServiceCase: Create + Read at Basic -->
+    <RolePrivilege name="prvCreatecch_servicecase" level="Basic" />
+    <RolePrivilege name="prvReadcch_servicecase" level="Basic" />
+    <RolePrivilege name="prvAppendcch_servicecase" level="Basic" />
+    <RolePrivilege name="prvAppendTocch_servicecase" level="Basic" />
+    <!-- TrainingRecord: Create + Read at Basic -->
+    <RolePrivilege name="prvCreatecch_trainingrecord" level="Basic" />
+    <RolePrivilege name="prvReadcch_trainingrecord" level="Basic" />
+    <RolePrivilege name="prvAppendcch_trainingrecord" level="Basic" />
+    <RolePrivilege name="prvAppendTocch_trainingrecord" level="Basic" />
+  </RolePrivileges>
+</Role>
