@@ -6,6 +6,55 @@
 
 ---
 
+## 2026-04-29 — Phase 0 closed; Phase 1 opens
+
+**Decided:** Phase 0 (Tenant & governance setup) is complete. `.squad/phase.json` `currentPhase` bumps from 0 to 1 (Data model & seed). Per locked CI strategy + Topic 11 §A3, **v0.1.0 tag holds until end-of-Phase-1** (Dataverse-Engineer issue #5 lands the schema).
+
+**What landed in Phase 0** (sittings 1–6 + 4g; 5 PRs merged + 4 closure-trail issues + 6 active first-PR-target issues):
+
+| Sitting | What | Commit / PR |
+|---|---|---|
+| 1 | Planning corpus (11 topic docs + handoff) + repo scaffolding (AGENTS.md, copilot-instructions, .vscode, .env.example, .gitignore, README, names file with 4 heroes) + repo flagged `isTemplate=true` | `d5e99ff` |
+| 2 | Squad: 9-role roster, `.squad/charter.md`, `.squad/team.md`, `.squad/routing.md`, 9 agent charters + histories, `.squad/phase.json` (Phase 0), `.squad/phase.schema.json`, decisions.md seeded with 11 entries (Topics 1–11), 7 subfolder AGENTS.md files (lifted verbatim from Topic 10B), 28 GitHub labels | `5b56a3a` + `b39c19d` |
+| 3 | PR template + CODEOWNERS + Tier-1 workflow skeleton (15 jobs + aggregator) + branch protection ruleset 'main-protection' (PRs required, squash-only, conversation resolution, Tier-1 summary required, admin bypass) | `d3a9412` + PR #1 `f616921` |
+| 4 | scripts/lib/EnvVarManifest.json (40 cch_* vars; 5/12/5/5/9/4 split across Url/Id/Secret/Tunable/Feature/Brand; 19 required) + EnvVarManifest.schema.json + Secrets.ps1 (Resolve-Secret + Test-SecretReference; 6/6 smoke tests passed) + deployment-settings.json.template + .schema.json + install.ps1 (mode dispatcher; --whatif default) + upgrade.ps1 + uninstall.ps1 + doctor.ps1 (8 sections; 5 real passes + 7 honest [NotImplemented] info; --vignette/--mode/--section/--json flags) | PR #2 `aff6476` |
+| 5 | scripts/lib/Governance.ps1 (shared helpers) + 4 governance scripts (Apply-Dlp + Apply-ManagedEnv + Apply-Auditing + Provision-Pipelines; --whatif default; install emits paths but never runs) + .gitignore security fix (deployment-settings.json was always documented as gitignored but missed in Sitting 1) | PR #3 `7750bf0` |
+| 6 | 7 phase:0..6 GitHub labels + 3 release:v0.1.0..v0.3.0 labels + 6 fresh first-PR-target issues (#4 Lead PR #2; #5 Dataverse-Engineer; #6 Pages-Engineer; #7 CodeApp-Engineer; #8 Flows-Engineer; #9 Agent-Builder) + 4 closure-trail issues (#10–#13) | (no PR; pure issue tracker) |
+| 4g | Setup-ServicePrincipal.ps1 (real --Apply implementation; idempotent; parses pac 2.6.4 actual output format) + scripts/lib/EntraApps.ps1 (Pages auth helpers via az ad app; 4/4 smoke tests) + scripts/lib/Governance.ps1 refactor (Test-/Set-PSObjectProperty StrictMode-safe helpers + Show-GovernancePreview) + install.ps1 'install' branch (12-step pipeline visible; steps 1+3a real; step 3b sequenced behind step 7+; steps 2+3b+4-12 are labeled stubs) + doctor.ps1 [EnvVars] gains Entra-app presence checks | PR #14 `321f4f5`; closes issue #4 |
+
+**Tenant + env state at Phase-0 close:**
+- **Env:** Continuum Demo (Dev) at `https://orgeeaa078f.crm.dynamics.com/` — **Sandbox tier** (initially provisioned as trial, converted to sandbox via admin portal)
+- **Tenant:** M365 Developer tenant `M365x06004729.onmicrosoft.com` (id `72f7eef5-723a-4b8a-acaa-04a2b168cd00`)
+- **Super user:** `admin@M365x06004729.onmicrosoft.com` (MOD Administrator)
+- **Service Principal app reg:** `continuum-demo-dev-sp` / App ID `d60beb65-8f08-433c-892e-9d5670434dd7` / secret expires 2027-04-30 / role: System Administrator (downgrade to bespoke `ServicePrincipal` role queued for Phase 1 once Dataverse-Engineer issue #5 ships it)
+- **Pages auth Entra app:** NOT yet provisioned (sequenced behind step 7+ — needs `cch_UrlPagesSite` for redirect URI; lib is ready in `scripts/lib/EntraApps.ps1`)
+- **Dataverse Application User for SP:** registered on Continuum Demo (Dev) env via `pac admin create-service-principal`
+- **Solution:** not yet imported (Phase 1 work)
+
+**What's NOT yet done (queued for later phases):**
+- Pages auth Entra app reg (Phase 2 — gates Pages-Engineer issue #6 PR #2)
+- Governance scripts have NEVER been -Apply'd (skeletons + planned-action listings only). Operator runs Apply-Dlp.ps1 -Apply etc. on demand per Topic 5.
+- SharePoint site / Teams team / Copilot Studio agents / solution import / seed data — all Phase 1+ work
+- Tier-1 stub jobs (lint+format+types, JSON/YAML/MD lint, PSScriptAnalyzer, solution structure, audit-permissions content, axe content, schema-drift validators) — fill in as code lands
+- Microsoft Graph admin consent for `ChannelMessage.Send` — required for Teams channel posts (Topic 5); deferred until Teams team exists
+
+**Why:** Phase gates exist to make rework cheap. Phase 0's job was scaffolding + gates + lifecycle skeletons + the SP provisioning that gates other roles. All ✅. Phase 1 unblocks 4 other roles (anyone who needs schema to exist).
+
+**Alternatives considered:**
+- Hold Phase 0 open until governance scripts -Apply'd → premature; Topic 5 explicitly says they're operator-on-demand, not part of install.
+- Hold until Pages auth provisioned → premature; needs Pages site URL which is Phase 2.
+- Tag v0.1.0 at Phase-0 close → contradicts locked CI strategy (handoff §3.16: v0.1.0 = end of Phase 1).
+
+**Affects:** Cross-cutting. Opens Phase 1 (Dataverse-Engineer issue #5 = schema baseline; sized at 2 sittings). Pages-Engineer (issue #6 PR #1, scaffold) can run parallel to Phase 1 since it doesn't need schema.
+
+**Operator runbook items captured for posterity:**
+- Sandbox env was trial-tier originally; trial → sandbox conversion was done via admin.powerplatform.com → Manage → Convert (CLI doesn't expose this conversion). Note for `docs/install.md` when authored: future operators in dev tenants without sandbox capacity should expect to start with trial + plan conversion.
+- `pac admin create-service-principal` has NO --whatif/dry-run mode — it always executes against the default-authenticated env. Our `Setup-ServicePrincipal.ps1`'s --whatif default is essential. Author accidentally provisioned a stray SP in Sitting 4g during parser-format verification; cleaned up via `az ad app delete`.
+
+**References:** [Topic 11 §A3](../docs/_planning/topic-11-audit-corrections.md) (Lead PR #2 sequencing); [.squad/phase.json](phase.json) (now currentPhase=1); [scripts/Setup-ServicePrincipal.ps1](../scripts/Setup-ServicePrincipal.ps1); GitHub issues #4–#13.
+
+---
+
 ## 2026-04-29 — Topic 11: Audit corrections (12 + 3)
 
 **Decided:** Run a post-planning audit on Topics 1–10 + handoff. Capture all findings as **C1–C12** corrections in [docs/_planning/topic-11-audit-corrections.md](../docs/_planning/topic-11-audit-corrections.md), which becomes the **authoritative correction layer** that supersedes earlier topic docs where they conflict. A **second-pass audit** added **A1–A3** (V6 vignette gap in README/copilot-instructions, Tier-1 budget reality, Entra provisioning sequencing).
