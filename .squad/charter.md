@@ -68,7 +68,7 @@ For artifacts that don't have a clean single-role owner. Per Topic 10B + Topic 1
 3. **Synthetic data only.** Faker `en_US`. Banner every demo screen.
 4. **Confirm before destructive Power Platform operations.** Even in `--yolo` mode.
 5. **Document every non-trivial decision** in `.squad/decisions.md` via the inbox pattern (Scribe merges).
-6. **Branching:** `feature/p<N>-<name>` (Tier-1 lints regex `^feature/p[0-6]-[a-z0-9-]+$`). After squash-merge, **do NOT delete the branch** — branches are preserved as an educational archive of how each PR was authored. Pre-convention deleted branches are reconstructed under `archive/pr<NN>-<name>`.
+6. **Branching:** `feature/p<N>-<name>` (Tier-1 lints regex `^feature/p[0-6]-[a-z0-9-]+$`). After squash-merge, **delete the branch** (`gh pr merge --squash --delete-branch`). PR conversation + inline reviews + per-commit history are preserved on the PR page; branch refs add no educational value.
 7. **Never commit secrets.** `.env.local` only.
 8. **Stay in your lane.** Cross-component changes require Lead handoff.
 9. **Tests as you go.** Tester is embedded; every role co-authors tests as part of feature work.
