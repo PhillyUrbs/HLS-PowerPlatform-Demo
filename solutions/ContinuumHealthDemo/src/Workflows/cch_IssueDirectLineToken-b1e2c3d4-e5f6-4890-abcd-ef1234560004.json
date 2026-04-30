@@ -432,8 +432,8 @@
             },
             "body": {
               "user": {
-                "id": "@{triggerBody()?['agentId']}",
-                "name": "@{triggerBody()?['personaContext']?['personaId']}"
+                "id": "@{triggerBody()?['personaContext']?['personaId']}",
+                "name": "@{triggerBody()?['personaContext']?['personaRole']}"
               },
               "trustedOrigins": []
             }

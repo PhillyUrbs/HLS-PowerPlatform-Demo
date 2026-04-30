@@ -62,12 +62,12 @@
           "description": "True if the tool call completed successfully; false otherwise."
         },
         "data": {
-          "description": "Tool-specific result payload. Shape varies per tool flow; see individual flow definitions.",
-          "nullable": true
+          "type": ["object", "array", "string", "number", "boolean", "null"],
+          "description": "Tool-specific result payload. Shape varies per tool flow; see individual flow definitions."
         },
         "displayMessage": {
           "type": "string",
-          "description": "Human-readable summary suitable for the agent to surface to the user. Must be non-empty when success=true. Required when success=false."
+          "description": "Human-readable summary suitable for the agent to surface to the user. Required when success=false; recommended (but not required) when success=true."
         },
         "citations": {
           "type": "array",
