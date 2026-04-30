@@ -9,6 +9,14 @@
       <Descriptions>
         <Description description="Demo telemetry event captured from Code App, Pages, Agents, and Flows for the Continuum Health Demo." languagecode="1033" />
       </Descriptions>
+      <!-- DEPLOYMENT NOTE (Topic 6): Apply these 4 indexes post-import via PAC or admin UI.
+           Indexes are not declarable in PAC solution XML and must be applied separately:
+             1. cch_Timestamp DESC
+             2. cch_Category + cch_Timestamp DESC (composite)
+             3. cch_Severity + cch_Timestamp DESC (composite)
+             4. cch_CorrelationId
+           Command: pac table add-column-index (or create via admin UI > Advanced Settings > Customize > Entity > Keys).
+      -->
       <IsAuditEnabled>1</IsAuditEnabled>
       <IsValidForQueue>0</IsValidForQueue>
       <IsConnectionsEnabled>0</IsConnectionsEnabled>

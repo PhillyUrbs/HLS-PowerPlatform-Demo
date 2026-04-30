@@ -192,6 +192,7 @@
           <IsAuditEnabled>1</IsAuditEnabled>
           <IsCustomizable>1</IsCustomizable>
           <IsCustomField>1</IsCustomField>
+          <Format>RichText</Format>
           <LocalizedNames>
             <LocalizedName description="MDR Draft" languagecode="1033" />
           </LocalizedNames>
