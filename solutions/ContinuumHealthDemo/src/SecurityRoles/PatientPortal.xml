@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Role Name="PatientPortal" Id="a1b2c3d4-0001-0001-0001-000000000001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <RolePrivileges>
+    <!-- Patient: CRUD at Global (Org-level) — UI persona filter does per-patient narrowing per Topic 3 lock -->
+    <RolePrivilege name="prvCreatecch_patient" level="Global" />
+    <RolePrivilege name="prvReadcch_patient" level="Global" />
+    <RolePrivilege name="prvWritecch_patient" level="Global" />
+    <RolePrivilege name="prvDeletecch_patient" level="Global" />
+    <RolePrivilege name="prvAppendcch_patient" level="Global" />
+    <RolePrivilege name="prvAppendTocch_patient" level="Global" />
+    <!-- Prescription: CRUD at Global -->
+    <RolePrivilege name="prvCreatecch_prescription" level="Global" />
+    <RolePrivilege name="prvReadcch_prescription" level="Global" />
+    <RolePrivilege name="prvWritecch_prescription" level="Global" />
+    <RolePrivilege name="prvDeletecch_prescription" level="Global" />
+    <RolePrivilege name="prvAppendcch_prescription" level="Global" />
+    <RolePrivilege name="prvAppendTocch_prescription" level="Global" />
+    <!-- Shipment: CRUD at Global -->
+    <RolePrivilege name="prvCreatecch_shipment" level="Global" />
+    <RolePrivilege name="prvReadcch_shipment" level="Global" />
+    <RolePrivilege name="prvWritecch_shipment" level="Global" />
+    <RolePrivilege name="prvDeletecch_shipment" level="Global" />
+    <RolePrivilege name="prvAppendcch_shipment" level="Global" />
+    <RolePrivilege name="prvAppendTocch_shipment" level="Global" />
+    <!-- ServiceCase: CRUD at Global -->
+    <RolePrivilege name="prvCreatecch_servicecase" level="Global" />
+    <RolePrivilege name="prvReadcch_servicecase" level="Global" />
+    <RolePrivilege name="prvWritecch_servicecase" level="Global" />
+    <RolePrivilege name="prvDeletecch_servicecase" level="Global" />
+    <RolePrivilege name="prvAppendcch_servicecase" level="Global" />
+    <RolePrivilege name="prvAppendTocch_servicecase" level="Global" />
+    <!-- Device: Read-only -->
+    <RolePrivilege name="prvReadcch_device" level="Global" />
+    <!-- HCP: Read-only -->
+    <RolePrivilege name="prvReadcch_hcp" level="Global" />
+    <!-- Account: Read-only -->
+    <RolePrivilege name="prvReadcch_account" level="Global" />
+  </RolePrivileges>
+</Role>

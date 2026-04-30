@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name LocalizedName="Patient" OwnershipType="UserOwned" TableType="Standard">cch_patient</Name>
+  <EntityInfo>
+    <entity Name="cch_patient">
+      <LocalizedNames>
+        <LocalizedName description="Patient" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="CGM patient enrolled with Contoso Continuum Health." languagecode="1033" />
+      </Descriptions>
+      <IsAuditEnabled>1</IsAuditEnabled>
+      <IsValidForQueue>0</IsValidForQueue>
+      <IsConnectionsEnabled>0</IsConnectionsEnabled>
+      <OwnershipType>UserOwned</OwnershipType>
+      <PrimaryNameAttribute>cch_fullname</PrimaryNameAttribute>
+      <attributes>
+        <attribute PhysicalName="cch_patientid">
+          <Type>primarykey</Type>
+          <Name>cch_patientid</Name>
+          <LogicalName>cch_patientid</LogicalName>
+          <RequiredLevel>SystemRequired</RequiredLevel>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsCustomizable>0</IsCustomizable>
+          <IsCustomField>0</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Patient" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_fullname">
+          <Type>nvarchar</Type>
+          <Name>cch_fullname</Name>
+          <LogicalName>cch_fullname</LogicalName>
+          <RequiredLevel>ApplicationRequired</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>200</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Full Name" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_dateofbirth">
+          <Type>datetime</Type>
+          <Name>cch_dateofbirth</Name>
+          <LogicalName>cch_dateofbirth</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Date of Birth" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_mrn">
+          <Type>nvarchar</Type>
+          <Name>cch_mrn</Name>
+          <LogicalName>cch_mrn</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>50</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Medical Record Number" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_email">
+          <Type>nvarchar</Type>
+          <Name>cch_email</Name>
+          <LogicalName>cch_email</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>200</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Email" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_phone">
+          <Type>nvarchar</Type>
+          <Name>cch_phone</Name>
+          <LogicalName>cch_phone</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>50</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Phone" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_status">
+          <Type>picklist</Type>
+          <Name>cch_status</Name>
+          <LogicalName>cch_status</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <optionset Name="cch_patientstatus">
+            <OptionSetType>picklist</OptionSetType>
+            <IsGlobal>0</IsGlobal>
+            <IsCustomizable>1</IsCustomizable>
+            <IsManaged>0</IsManaged>
+            <ExternalTypeName />
+            <options>
+              <option value="100000000">
+                <labels>
+                  <label description="Active" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000001">
+                <labels>
+                  <label description="Inactive" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000002">
+                <labels>
+                  <label description="Pending" languagecode="1033" />
+                </labels>
+              </option>
+            </options>
+          </optionset>
+          <LocalizedNames>
+            <LocalizedName description="Status" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_registrationdate">
+          <Type>datetime</Type>
+          <Name>cch_registrationdate</Name>
+          <LogicalName>cch_registrationdate</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Registration Date" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_primaryhcpid">
+          <Type>lookup</Type>
+          <Name>cch_primaryhcpid</Name>
+          <LogicalName>cch_primaryhcpid</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <Targets>
+            <Target>cch_hcp</Target>
+          </Targets>
+          <LocalizedNames>
+            <LocalizedName description="Primary HCP" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_assigneddeviceid">
+          <Type>lookup</Type>
+          <Name>cch_assigneddeviceid</Name>
+          <LogicalName>cch_assigneddeviceid</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <Targets>
+            <Target>cch_device</Target>
+          </Targets>
+          <LocalizedNames>
+            <LocalizedName description="Assigned Device" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_insurancecarrier">
+          <Type>nvarchar</Type>
+          <Name>cch_insurancecarrier</Name>
+          <LogicalName>cch_insurancecarrier</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>200</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Insurance Carrier" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_insurancememberid">
+          <Type>nvarchar</Type>
+          <Name>cch_insurancememberid</Name>
+          <LogicalName>cch_insurancememberid</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Insurance Member ID" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_addressstreet">
+          <Type>nvarchar</Type>
+          <Name>cch_addressstreet</Name>
+          <LogicalName>cch_addressstreet</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>200</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Street Address" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_addresscity">
+          <Type>nvarchar</Type>
+          <Name>cch_addresscity</Name>
+          <LogicalName>cch_addresscity</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="City" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_addressstate">
+          <Type>nvarchar</Type>
+          <Name>cch_addressstate</Name>
+          <LogicalName>cch_addressstate</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>50</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="State" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_addresszip">
+          <Type>nvarchar</Type>
+          <Name>cch_addresszip</Name>
+          <LogicalName>cch_addresszip</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>20</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="ZIP Code" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_sex">
+          <Type>picklist</Type>
+          <Name>cch_sex</Name>
+          <LogicalName>cch_sex</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <optionset Name="cch_sex">
+            <OptionSetType>picklist</OptionSetType>
+            <IsGlobal>0</IsGlobal>
+            <IsCustomizable>1</IsCustomizable>
+            <IsManaged>0</IsManaged>
+            <ExternalTypeName />
+            <options>
+              <option value="100000000">
+                <labels>
+                  <label description="Male" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000001">
+                <labels>
+                  <label description="Female" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000002">
+                <labels>
+                  <label description="Other" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000003">
+                <labels>
+                  <label description="Unknown" languagecode="1033" />
+                </labels>
+              </option>
+            </options>
+          </optionset>
+          <LocalizedNames>
+            <LocalizedName description="Sex" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_allergies">
+          <Type>memo</Type>
+          <Name>cch_allergies</Name>
+          <LogicalName>cch_allergies</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Allergies" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_currentdeviceserial">
+          <Type>nvarchar</Type>
+          <Name>cch_currentdeviceserial</Name>
+          <LogicalName>cch_currentdeviceserial</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Current Device Serial" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_testrun">
+          <Type>bit</Type>
+          <Name>cch_testrun</Name>
+          <LogicalName>cch_testrun</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <DefaultValue>0</DefaultValue>
+          <LocalizedNames>
+            <LocalizedName description="Test Run" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_createdbypersona">
+          <Type>nvarchar</Type>
+          <Name>cch_createdbypersona</Name>
+          <LogicalName>cch_createdbypersona</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Created By Persona" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_modifiedbypersona">
+          <Type>nvarchar</Type>
+          <Name>cch_modifiedbypersona</Name>
+          <LogicalName>cch_modifiedbypersona</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Modified By Persona" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+      </attributes>
+    </entity>
+  </EntityInfo>
+</Entity>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name LocalizedName="Shipment" OwnershipType="UserOwned" TableType="Standard">cch_shipment</Name>
+  <EntityInfo>
+    <entity Name="cch_shipment">
+      <LocalizedNames>
+        <LocalizedName description="Shipment" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="CGM device shipment lifecycle record for Contoso Continuum Health." languagecode="1033" />
+      </Descriptions>
+      <IsAuditEnabled>1</IsAuditEnabled>
+      <IsValidForQueue>0</IsValidForQueue>
+      <IsConnectionsEnabled>0</IsConnectionsEnabled>
+      <OwnershipType>UserOwned</OwnershipType>
+      <PrimaryNameAttribute>cch_name</PrimaryNameAttribute>
+      <attributes>
+        <attribute PhysicalName="cch_shipmentid">
+          <Type>primarykey</Type>
+          <Name>cch_shipmentid</Name>
+          <LogicalName>cch_shipmentid</LogicalName>
+          <RequiredLevel>SystemRequired</RequiredLevel>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsCustomizable>0</IsCustomizable>
+          <IsCustomField>0</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Shipment" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_name">
+          <Type>nvarchar</Type>
+          <Name>cch_name</Name>
+          <LogicalName>cch_name</LogicalName>
+          <RequiredLevel>ApplicationRequired</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>200</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Shipment Number" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_patientid">
+          <Type>lookup</Type>
+          <Name>cch_patientid</Name>
+          <LogicalName>cch_patientid</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <Targets>
+            <Target>cch_patient</Target>
+          </Targets>
+          <LocalizedNames>
+            <LocalizedName description="Patient" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_prescriptionid">
+          <Type>lookup</Type>
+          <Name>cch_prescriptionid</Name>
+          <LogicalName>cch_prescriptionid</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <Targets>
+            <Target>cch_prescription</Target>
+          </Targets>
+          <LocalizedNames>
+            <LocalizedName description="Prescription" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_status">
+          <Type>picklist</Type>
+          <Name>cch_status</Name>
+          <LogicalName>cch_status</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <optionset Name="cch_shipmentstatus">
+            <OptionSetType>picklist</OptionSetType>
+            <IsGlobal>0</IsGlobal>
+            <IsCustomizable>1</IsCustomizable>
+            <IsManaged>0</IsManaged>
+            <ExternalTypeName />
+            <options>
+              <option value="100000000">
+                <labels>
+                  <label description="Created" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000001">
+                <labels>
+                  <label description="Picked" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000002">
+                <labels>
+                  <label description="InTransit" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000003">
+                <labels>
+                  <label description="OutForDelivery" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000004">
+                <labels>
+                  <label description="Delivered" languagecode="1033" />
+                </labels>
+              </option>
+            </options>
+          </optionset>
+          <LocalizedNames>
+            <LocalizedName description="Status" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_createdtimestamp">
+          <Type>datetime</Type>
+          <Name>cch_createdtimestamp</Name>
+          <LogicalName>cch_createdtimestamp</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Created On" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_pickedtimestamp">
+          <Type>datetime</Type>
+          <Name>cch_pickedtimestamp</Name>
+          <LogicalName>cch_pickedtimestamp</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Picked At" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_intransittimestamp">
+          <Type>datetime</Type>
+          <Name>cch_intransittimestamp</Name>
+          <LogicalName>cch_intransittimestamp</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="In Transit At" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_outfordeliverytimestamp">
+          <Type>datetime</Type>
+          <Name>cch_outfordeliverytimestamp</Name>
+          <LogicalName>cch_outfordeliverytimestamp</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Out For Delivery At" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_deliveredtimestamp">
+          <Type>datetime</Type>
+          <Name>cch_deliveredtimestamp</Name>
+          <LogicalName>cch_deliveredtimestamp</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Delivered At" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_trackingnumber">
+          <Type>nvarchar</Type>
+          <Name>cch_trackingnumber</Name>
+          <LogicalName>cch_trackingnumber</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Tracking Number" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_estimateddelivery">
+          <Type>datetime</Type>
+          <Name>cch_estimateddelivery</Name>
+          <LogicalName>cch_estimateddelivery</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Estimated Delivery" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_testrun">
+          <Type>bit</Type>
+          <Name>cch_testrun</Name>
+          <LogicalName>cch_testrun</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <DefaultValue>0</DefaultValue>
+          <LocalizedNames>
+            <LocalizedName description="Test Run" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_createdbypersona">
+          <Type>nvarchar</Type>
+          <Name>cch_createdbypersona</Name>
+          <LogicalName>cch_createdbypersona</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Created By Persona" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_modifiedbypersona">
+          <Type>nvarchar</Type>
+          <Name>cch_modifiedbypersona</Name>
+          <LogicalName>cch_modifiedbypersona</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>100</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Modified By Persona" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+      </attributes>
+    </entity>
+  </EntityInfo>
+</Entity>

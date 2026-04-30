@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<webrole Name="AnonymousPatient" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Description>Power Pages web role for anonymous (unauthenticated) visitors. Create-only on cch_patient (registration submit); no reads on any custom table; static Pages content only.</Description>
+  <IsAuthenticatedUsersRole>0</IsAuthenticatedUsersRole>
+  <IsAnonymousUsersRole>1</IsAnonymousUsersRole>
+</webrole>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Role Name="QualityAnalyst" Id="a1b2c3d4-0004-0004-0004-000000000004" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <RolePrivileges>
+    <!-- Complaint: Read + Update + Delete (includes agent columns) at Global (Org-level) — per Topic 3 lock -->
+    <RolePrivilege name="prvReadcch_complaint" level="Global" />
+    <RolePrivilege name="prvWritecch_complaint" level="Global" />
+    <RolePrivilege name="prvDeletecch_complaint" level="Global" />
+    <RolePrivilege name="prvAppendcch_complaint" level="Global" />
+    <RolePrivilege name="prvAppendTocch_complaint" level="Global" />
+    <!-- Patient: Read-only -->
+    <RolePrivilege name="prvReadcch_patient" level="Global" />
+    <!-- Device: Read-only -->
+    <RolePrivilege name="prvReadcch_device" level="Global" />
+    <!-- Prescription: Read-only -->
+    <RolePrivilege name="prvReadcch_prescription" level="Global" />
+    <!-- Shipment: Read-only -->
+    <RolePrivilege name="prvReadcch_shipment" level="Global" />
+    <!-- ServiceCase: Read + Update at Global -->
+    <RolePrivilege name="prvReadcch_servicecase" level="Global" />
+    <RolePrivilege name="prvWritecch_servicecase" level="Global" />
+    <RolePrivilege name="prvAppendcch_servicecase" level="Global" />
+    <RolePrivilege name="prvAppendTocch_servicecase" level="Global" />
+  </RolePrivileges>
+</Role>

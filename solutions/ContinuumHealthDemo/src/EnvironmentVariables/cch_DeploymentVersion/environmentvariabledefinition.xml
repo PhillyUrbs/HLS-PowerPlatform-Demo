@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<environmentvariabledefinition Name="cch_DeploymentVersion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DisplayName>Deployment Version</DisplayName>
+  <Description>Current deployed solution version. Stamped by migrations as they run. Per handoff §3.15 lifecycle / migration framework.</Description>
+  <DataType>String</DataType>
+  <DefaultValue>0.0.0</DefaultValue>
+  <IsRequired>0</IsRequired>
+  <IsCustomizable>1</IsCustomizable>
+  <LocalizedNames>
+    <LocalizedName description="Deployment Version" languagecode="1033" />
+  </LocalizedNames>
+  <Descriptions>
+    <Description description="Current deployed solution version. Stamped by migrations as they run. Per handoff §3.15 lifecycle / migration framework." languagecode="1033" />
+  </Descriptions>
+</environmentvariabledefinition>

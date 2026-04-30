@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name LocalizedName="Deployment History" OwnershipType="OrgOwned" TableType="Standard">cch_deploymenthistory</Name>
+  <EntityInfo>
+    <entity Name="cch_deploymenthistory">
+      <LocalizedNames>
+        <LocalizedName description="Deployment History" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="Append-only deployment event log for the Continuum Health Demo solution." languagecode="1033" />
+      </Descriptions>
+      <IsAuditEnabled>1</IsAuditEnabled>
+      <IsValidForQueue>0</IsValidForQueue>
+      <IsConnectionsEnabled>0</IsConnectionsEnabled>
+      <OwnershipType>OrgOwned</OwnershipType>
+      <PrimaryNameAttribute>cch_name</PrimaryNameAttribute>
+      <attributes>
+        <attribute PhysicalName="cch_deploymenthistoryid">
+          <Type>primarykey</Type>
+          <Name>cch_deploymenthistoryid</Name>
+          <LogicalName>cch_deploymenthistoryid</LogicalName>
+          <RequiredLevel>SystemRequired</RequiredLevel>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsCustomizable>0</IsCustomizable>
+          <IsCustomField>0</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Deployment History" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_name">
+          <Type>nvarchar</Type>
+          <Name>cch_name</Name>
+          <LogicalName>cch_name</LogicalName>
+          <RequiredLevel>ApplicationRequired</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>200</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Deployment Event" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_version">
+          <Type>nvarchar</Type>
+          <Name>cch_version</Name>
+          <LogicalName>cch_version</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>50</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Solution Version" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_mode">
+          <Type>nvarchar</Type>
+          <Name>cch_mode</Name>
+          <LogicalName>cch_mode</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <MaxLength>50</MaxLength>
+          <LocalizedNames>
+            <LocalizedName description="Mode (install/upgrade/etc)" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_status">
+          <Type>picklist</Type>
+          <Name>cch_status</Name>
+          <LogicalName>cch_status</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <optionset Name="cch_deploymentstatus">
+            <OptionSetType>picklist</OptionSetType>
+            <IsGlobal>0</IsGlobal>
+            <IsCustomizable>1</IsCustomizable>
+            <IsManaged>0</IsManaged>
+            <ExternalTypeName />
+            <options>
+              <option value="100000000">
+                <labels>
+                  <label description="Success" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000001">
+                <labels>
+                  <label description="PartialSuccess" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000002">
+                <labels>
+                  <label description="Failed" languagecode="1033" />
+                </labels>
+              </option>
+              <option value="100000003">
+                <labels>
+                  <label description="RolledBack" languagecode="1033" />
+                </labels>
+              </option>
+            </options>
+          </optionset>
+          <LocalizedNames>
+            <LocalizedName description="Status" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_deployedat">
+          <Type>datetime</Type>
+          <Name>cch_deployedat</Name>
+          <LogicalName>cch_deployedat</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Deployed At" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_notes">
+          <Type>memo</Type>
+          <Name>cch_notes</Name>
+          <LogicalName>cch_notes</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Notes" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_migrationsrun">
+          <Type>memo</Type>
+          <Name>cch_migrationsrun</Name>
+          <LogicalName>cch_migrationsrun</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>1</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <LocalizedNames>
+            <LocalizedName description="Migrations Run (JSON)" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+        <attribute PhysicalName="cch_testrun">
+          <Type>bit</Type>
+          <Name>cch_testrun</Name>
+          <LogicalName>cch_testrun</LogicalName>
+          <RequiredLevel>None</RequiredLevel>
+          <IsAuditEnabled>0</IsAuditEnabled>
+          <IsCustomizable>1</IsCustomizable>
+          <IsCustomField>1</IsCustomField>
+          <DefaultValue>0</DefaultValue>
+          <LocalizedNames>
+            <LocalizedName description="Test Run" languagecode="1033" />
+          </LocalizedNames>
+        </attribute>
+      </attributes>
+    </entity>
+  </EntityInfo>
+</Entity>
