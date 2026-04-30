@@ -6,6 +6,31 @@
 
 ---
 
+## 2026-04-30 — Phase 2 Power Pages scaffold: continuum-portal React + Vite + Fluent UI v9
+
+**Decided:** `sites/continuum-portal/` scaffolded as a React + Vite + TypeScript + Fluent UI v9 Power Pages Code Site. Two components land as the first entries in the shared component library: `<ContinuumLogo/>` (#18) and `<DemoModeBanner/>` (#19).
+
+**What landed:**
+- React 18 + Vite 6 + TypeScript scaffold; light mode only (`webLightTheme`; Topic 7 lock).
+- `src/theme.ts` — brand teal token `#0E7C86` (Topic 2 lock).
+- `<ContinuumLogo/>` (#18) — hand-authored CGM-inspired SVG arc mark + wordmark; accepts `brandColor` prop via CSS custom property `--cch-brand-teal`.
+- `<DemoModeBanner/>` (#19) — Fluent `MessageBar` warning; dismissible per session (`sessionStorage`); returns on every refresh / new tab / persona switch (Topic 2 lock).
+- Vitest + jest-axe a11y test suite (8/8 passing; zero axe AA violations).
+- Tier-1 `test-a11y-vitest` CI job un-stubbed: now runs `npm ci && npm run test:a11y` in `sites/continuum-portal/` when `sites/` changes detected.
+
+**Alternatives considered:**
+- Use `create-site` Power Platform skill → skill not available in this agent environment; hand-rolled with `npm create vite` instead.
+- Implement `tsc -b` build pattern (Vite 6 default) → Vite 6 drops `tsconfig.app.json` project-reference requirement; switched to `tsc --noEmit && vite build` for simplicity.
+
+**Out of scope (deferred):**
+- Auth wiring (AuthenticatedPatient + AuthenticatedHCP) — separate Pages-Engineer PR #2, gated on Lead's `cch_IdEntraAppPagesAuth` Entra app reg.
+- V1 patient registration form and V2 HCP dashboard routes.
+- AnonymousPatient table-permission YAML (no Dataverse reads in this PR; Topic 3 lock).
+
+**Affects:** Phase 2 (Power Pages Code Site). Parallel to Phase 1 per Topic 11 §A3.
+
+---
+
 ## 2026-04-29 — Phase 0 closed; Phase 1 opens
 
 **Decided:** Phase 0 (Tenant & governance setup) is complete. `.squad/phase.json` `currentPhase` bumps from 0 to 1 (Data model & seed). Per locked CI strategy + Topic 11 §A3, **v0.1.0 tag holds until end-of-Phase-1** (Dataverse-Engineer issue #5 lands the schema).
