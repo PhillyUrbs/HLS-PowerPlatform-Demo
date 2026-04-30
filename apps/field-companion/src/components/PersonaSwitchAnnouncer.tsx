@@ -44,22 +44,25 @@ export function PersonaSwitchAnnouncer(): ReactElement {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
+    function clearPendingTimer() {
+      if (timerRef.current !== null) {
+        clearTimeout(timerRef.current)
+        timerRef.current = null
+      }
+    }
+
     function handleSwitch(e: Event) {
       const detail = (e as CustomEvent<PersonaSwitchDetail>).detail
       setMessage(`Persona switched to ${detail.toPersonaRole}`)
-      // Clear after announcement to allow repeat announcements.
-      if (timerRef.current !== null) {
-        clearTimeout(timerRef.current)
-      }
+      // Clear any pending dismissal timer, then restart the 3-second countdown.
+      clearPendingTimer()
       timerRef.current = setTimeout(() => setMessage(''), 3000)
     }
 
     window.addEventListener('PersonaSwitch', handleSwitch)
     return () => {
       window.removeEventListener('PersonaSwitch', handleSwitch)
-      if (timerRef.current !== null) {
-        clearTimeout(timerRef.current)
-      }
+      clearPendingTimer()
     }
   }, [])
 
