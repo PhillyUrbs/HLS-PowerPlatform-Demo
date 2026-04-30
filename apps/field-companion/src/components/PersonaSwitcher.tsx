@@ -162,7 +162,7 @@ export function PersonaSwitcher(): ReactElement {
       </MenuTrigger>
 
       <MenuPopover>
-        <div className={styles.menuContent} role="dialog" aria-label="Persona switcher">
+        <div className={styles.menuContent}>
           <div className={styles.searchWrapper}>
             <Input
               id={searchId}
@@ -175,23 +175,22 @@ export function PersonaSwitcher(): ReactElement {
             />
           </div>
           <MenuList>
-            <div className={styles.listScrollable} role="list" aria-label="Available personas">
+            <div className={styles.listScrollable}>
               {filtered.length === 0 && (
                 <p style={{ padding: '8px', color: tokens.colorNeutralForeground3, fontSize: tokens.fontSizeBase200 }}>
                   No personas match &ldquo;{search}&rdquo;
                 </p>
               )}
               {filtered.map((p) => (
-                <div role="listitem" key={p.id}>
-                  <PersonaItem
-                    persona={p}
-                    isActive={p.id === activePersona.id}
-                    onSelect={(selected) => {
-                      setActivePersona(selected)
-                      setSearch('')
-                    }}
-                  />
-                </div>
+                <PersonaItem
+                  key={p.id}
+                  persona={p}
+                  isActive={p.id === activePersona.id}
+                  onSelect={(selected) => {
+                    setActivePersona(selected)
+                    setSearch('')
+                  }}
+                />
               ))}
             </div>
           </MenuList>

@@ -6,7 +6,7 @@
  * persona store and surface the announcement text in a visually-hidden but
  * screen-reader-visible live region.
  */
-import { type ReactElement, useEffect, useState } from 'react'
+import { type ReactElement, useEffect, useRef, useState } from 'react'
 import { makeStyles } from '@fluentui/react-components'
 
 const useStyles = makeStyles({
@@ -41,18 +41,26 @@ interface PersonaSwitchDetail {
 export function PersonaSwitchAnnouncer(): ReactElement {
   const styles = useStyles()
   const [message, setMessage] = useState('')
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     function handleSwitch(e: Event) {
       const detail = (e as CustomEvent<PersonaSwitchDetail>).detail
       setMessage(`Persona switched to ${detail.toPersonaRole}`)
       // Clear after announcement to allow repeat announcements.
-      const timer = setTimeout(() => setMessage(''), 3000)
-      return () => clearTimeout(timer)
+      if (timerRef.current !== null) {
+        clearTimeout(timerRef.current)
+      }
+      timerRef.current = setTimeout(() => setMessage(''), 3000)
     }
 
     window.addEventListener('PersonaSwitch', handleSwitch)
-    return () => window.removeEventListener('PersonaSwitch', handleSwitch)
+    return () => {
+      window.removeEventListener('PersonaSwitch', handleSwitch)
+      if (timerRef.current !== null) {
+        clearTimeout(timerRef.current)
+      }
+    }
   }, [])
 
   return (
