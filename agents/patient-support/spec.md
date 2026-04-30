@@ -123,7 +123,7 @@ Do **not** paraphrase these strings:
 
 ---
 
-## Tool inventory (10 tools — not wired in Phase 5.0)
+## Tool inventory (12 tools — not wired in Phase 5.0)
 
 > Tool wiring depends on Flows-Engineer Phase 4 flows (issue #8). Topics are stubbed; tool connections are added in subsequent PRs.
 
