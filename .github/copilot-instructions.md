@@ -55,7 +55,7 @@ docs/                            demo-script · personas · architecture · gove
 - **Solution name:** `ContinuumHealthDemo`
 - **Web roles:** `AnonymousPatient`, `AuthenticatedPatient`, `AuthenticatedHCP`
 - **Security roles:** `PatientPortal`, `HCPPortal`, `FieldRep`, `QualityAnalyst`
-- **Branch model:** trunk-based on `main`; short-lived `feature/p<N>-<name>` branches (where `<N>` is the numeric phase 0–6 and `<name>` is kebab-case). Tier-1 lints the pattern `^feature/p[0-6]-[a-z0-9-]+$` as a warning.
+- **Branch model:** trunk-based on `main`; short-lived `feature/p<N>-<name>` branches (where `<N>` is the numeric phase 0–6 and `<name>` is kebab-case). Tier-1 lints the pattern `^feature/p[0-6]-[a-z0-9-]+$` as a warning. **After squash-merge, do NOT delete the branch** — branches are preserved as an educational archive showing how each PR was authored and iterated. (Branches deleted before this convention was set are reconstructed under `archive/pr<NN>-<name>`.)
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`)
 - **Code style:** Prettier + ESLint defaults; 2-space indent; LF line endings
 
