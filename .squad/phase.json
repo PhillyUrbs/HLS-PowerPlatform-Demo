@@ -1,26 +1,22 @@
 {
   "$schema": "./phase.schema.json",
-  "currentPhase": 0,
-  "currentPhaseName": "Tenant & governance setup",
+  "currentPhase": 1,
+  "currentPhaseName": "Data model & seed",
   "phaseStartedAt": "2026-04-29",
   "allowedFolders": [
+    "solutions/",
+    "data/",
     "scripts/",
     "docs/",
     ".squad/",
     ".github/",
     ".vscode/",
-    ".copilot/",
-    "data/names/"
+    ".copilot/"
   ],
   "warningFolders": [
-    "solutions/",
     "apps/",
     "sites/",
-    "agents/",
-    "data/seed.ts",
-    "data/offsets.ts",
-    "data/fixtures/",
-    "data/knowledge/"
+    "agents/"
   ],
   "completionChecklist": [
     "Pending local-only files committed (handoff §2 list)",
@@ -36,6 +32,14 @@
     "scripts/governance/Apply-*.ps1 + Provision-Pipelines.ps1 committed (--whatif default)",
     "9 first-PR-target GitHub issues opened with phase + role labels",
     "scripts/Setup-ServicePrincipal.ps1 + install.ps1 entra-app-reg provisioning real (Topic 11 §A3)",
-    "Phase-0 verification checklist passed; human approves transition to Phase 1"
+    "Phase-0 verification checklist passed; human approves transition to Phase 1",
+    "PHASE 1 STARTED: Dataverse-Engineer issue #5 — 14 (15) tables + 6 security roles + 3 web roles in solutions/ContinuumHealthDemo/",
+    "Phase 1 deliverable: cch_DeploymentVersion env var stamped via 0001_baseline.ps1 migration",
+    "Phase 1 deliverable: persona-attribution columns on every audit-relevant table",
+    "Phase 1 deliverable: cch_TelemetryEvent table per Topic 6 schema",
+    "Phase 1 deliverable: 'ServicePrincipal' bespoke security role lands; Setup-ServicePrincipal.ps1 re-run with -SecurityRole 'ServicePrincipal' to downgrade SP from SysAdmin",
+    "Phase 1 deliverable: data/seed.ts + data/offsets.ts (Faker en_US; anchor-and-offset evergreen pattern)",
+    "Phase 1 deliverable: 15 knowledge .md doc skeletons under data/knowledge/<subfolder>/",
+    "Phase 1 verification: doctor [Permissions] + [EnvVars] (deployed) sections start reporting real findings; tag v0.1.0 at end-of-phase per locked CI strategy"
   ]
 }
