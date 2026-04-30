@@ -213,8 +213,13 @@ test-results/
 # Generated docs assets we don't want to track yet
 docs/assets/_generated/
 
-# Squad: ignore runtime state (logs, inbox, sessions)
-.squad/decisions/inbox/
+# Squad: ignore runtime state (logs, sessions, scratch)
+# NOTE: .squad/decisions/inbox/ is INTENTIONALLY committable — it's the
+# documented hand-off mechanism per .squad/decisions.md header (any agent
+# writes here, Scribe promotes into Active Decisions). PRs #23/#24/#27
+# established the round-trip pattern. Do not re-add `inbox/` to the ignore
+# list. Author tooling that drops transient files in the inbox should write
+# under .squad/.scratch/ instead.
 .squad/sessions/
 .squad/.scratch/
 # Squad: SubSquad activation file (local to this machine)
